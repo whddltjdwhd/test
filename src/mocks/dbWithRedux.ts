@@ -1,5 +1,5 @@
 import {store} from '../store'
-import {selectMockOrderSheetData, updateMockDeliveryAddress} from '../store/slices/mockDataSlice'
+import {selectMockOrderSheetData} from '../store/slices/mockDataSlice'
 
 import type {
     DeliveryAddress,
@@ -175,14 +175,5 @@ export const dbWithRedux = {
             sellerReward,
             reviewReward: 100,
         }
-    },
-
-    // 배송 주소 업데이트 (Redux action dispatch)
-    updateDeliveryAddress: (updates: Partial<DeliveryAddress>): DeliveryAddress => {
-        // Redux store 업데이트
-        store.dispatch(updateMockDeliveryAddress(updates))
-
-        // 업데이트된 데이터 반환
-        return dbWithRedux.getDeliveryAddress()
     },
 }
