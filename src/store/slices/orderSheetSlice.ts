@@ -74,6 +74,22 @@ export const fetchPointsReward = createAsyncThunk('orderSheet/fetchPointsReward'
     }
 })
 
+// 배송 메모 옵션 조회 thunk
+export const fetchDeliveryMemoOptions = createAsyncThunk(
+    'orderSheet/fetchDeliveryMemoOptions',
+    async (_, {rejectWithValue}) => {
+        try {
+            // 실제로는 API 호출이지만, 현재는 dbWithRedux를 사용
+            const {dbWithRedux} = await import('../../mocks/dbWithRedux')
+            const options = dbWithRedux.getDeliveryMemoOptions()
+            return options
+        } catch (error) {
+            const axiosError = error as AxiosError
+            return rejectWithValue(axiosError.response?.data || axiosError.message)
+        }
+    },
+)
+
 // 배송 주소 업데이트 thunk
 export const updateDeliveryAddress = createAsyncThunk(
     'orderSheet/updateDeliveryAddress',
@@ -97,12 +113,14 @@ const initialState: OrderSheetState = {
     orderProduct: null,
     orderPayMethod: null,
     pointsReward: null,
+    deliveryMemoOptions: [],
     loading: {
         subscriptionDate: false,
         deliveryAddress: false,
         orderProduct: false,
         orderPayMethod: false,
         pointsReward: false,
+        deliveryMemoOptions: false,
     },
     error: {
         subscriptionDate: null,
@@ -110,6 +128,7 @@ const initialState: OrderSheetState = {
         orderProduct: null,
         orderPayMethod: null,
         pointsReward: null,
+        deliveryMemoOptions: null,
     },
 }
 
@@ -124,6 +143,7 @@ const orderSheetSlice = createSlice({
                 orderProduct: null,
                 orderPayMethod: null,
                 pointsReward: null,
+                deliveryMemoOptions: null,
             }
         },
         resetOrderSheet: () => initialState,
@@ -202,6 +222,21 @@ const orderSheetSlice = createSlice({
             .addCase(fetchPointsReward.rejected, (state, action) => {
                 state.loading.pointsReward = false
                 state.error.pointsReward = action.payload as string
+            })
+
+        // 배송 메모 옵션 조회
+        builder
+            .addCase(fetchDeliveryMemoOptions.pending, (state) => {
+                state.loading.deliveryMemoOptions = true
+                state.error.deliveryMemoOptions = null
+            })
+            .addCase(fetchDeliveryMemoOptions.fulfilled, (state, action) => {
+                state.loading.deliveryMemoOptions = false
+                state.deliveryMemoOptions = action.payload
+            })
+            .addCase(fetchDeliveryMemoOptions.rejected, (state, action) => {
+                state.loading.deliveryMemoOptions = false
+                state.error.deliveryMemoOptions = action.payload as string
             })
 
         // 배송 주소 업데이트

@@ -6,6 +6,7 @@ import {selectMockOrderSheetData, updateMockDeliveryAddress} from '../store/slic
 import {
     clearErrors,
     fetchDeliveryAddress,
+    fetchDeliveryMemoOptions,
     fetchOrderPayMethod,
     fetchOrderProduct,
     fetchPointsReward,
@@ -13,23 +14,63 @@ import {
     updateDeliveryAddress,
 } from '../store/slices/orderSheetSlice'
 
-import type {DeliveryMemoOption} from '../types/order'
 import type {SubscriptionInfo} from '../types/submit'
 
 export const OrderSheetExampleWithRedux = () => {
     const dispatch = useAppDispatch()
 
-    // 배송 메모 관련 상태
+    // 배송 메모 관련 상태 (클라이언트에서만 관리)
     const [selectedMemoOption, setSelectedMemoOption] = useState<string>('default')
     const [customMemoText, setCustomMemoText] = useState<string>('')
-    const [memoOptions, setMemoOptions] = useState<DeliveryMemoOption[]>([])
 
     // API 데이터 (Redux thunk 결과)
-    const {subscriptionDate, deliveryAddress, orderProduct, orderPayMethod, pointsReward, loading, error} =
-        useAppSelector((state) => state.orderSheet)
+    const {
+        subscriptionDate,
+        deliveryAddress,
+        orderProduct,
+        orderPayMethod,
+        pointsReward,
+        deliveryMemoOptions,
+        loading,
+        error,
+    } = useAppSelector((state) => state.orderSheet)
 
     // Mock 데이터 (Redux store에서 직접)
     const mockData = useAppSelector(selectMockOrderSheetData)
+
+    // 현재 선택된 메모를 반환하는 함수
+    const getCurrentSelectedMemo = () => {
+        if (selectedMemoOption === 'custom') {
+            return {
+                memo: customMemoText,
+                type: 'custom' as const,
+                reuseMemo: false,
+                template: false,
+            }
+        } else if (selectedMemoOption === 'none') {
+            return {
+                memo: '',
+                type: 'none' as const,
+                reuseMemo: false,
+                template: false,
+            }
+        } else if (selectedMemoOption.startsWith('memo-')) {
+            const selectedOption = deliveryMemoOptions.find((option) => option.id === selectedMemoOption)
+            return {
+                memo: selectedOption?.value || '',
+                type: 'template' as const,
+                reuseMemo: true,
+                template: true,
+            }
+        } else {
+            return {
+                memo: '',
+                type: 'default' as const,
+                reuseMemo: false,
+                template: false,
+            }
+        }
+    }
 
     useEffect(() => {
         // 컴포넌트 마운트 시 모든 데이터 fetch
@@ -38,10 +79,7 @@ export const OrderSheetExampleWithRedux = () => {
         dispatch(fetchOrderProduct())
         dispatch(fetchOrderPayMethod())
         dispatch(fetchPointsReward())
-
-        // 배송 메모 옵션 로드
-        const options = dbWithRedux.getDeliveryMemoOptions()
-        setMemoOptions(options)
+        dispatch(fetchDeliveryMemoOptions()) // Redux thunk로 배송 메모 옵션 로드
     }, [dispatch])
 
     const handleUpdateDeliveryAddress = () => {
@@ -68,20 +106,8 @@ export const OrderSheetExampleWithRedux = () => {
         const selectedValue = event.target.value
         setSelectedMemoOption(selectedValue)
 
-        // 옵션에 따른 처리
-        const selectedOption = memoOptions.find((option) => option.id === selectedValue)
-        if (!selectedOption) {
-            return
-        }
-
-        if (selectedOption.type === 'template') {
-            // 템플릿 메모 선택
-            dbWithRedux.updateDeliveryMemo(selectedOption.value, 'template')
-        } else if (selectedOption.type === 'none') {
-            // 선택 안함
-            dbWithRedux.updateDeliveryMemo('', 'none')
-        } else if (selectedOption.type === 'custom') {
-            // 직접 입력하기 - 텍스트 필드 활성화만
+        // 직접 입력하기를 선택했을 때 커스텀 텍스트 초기화
+        if (selectedValue === 'custom') {
             setCustomMemoText('')
         }
     }
@@ -89,8 +115,7 @@ export const OrderSheetExampleWithRedux = () => {
     const handleCustomMemoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const text = event.target.value
         setCustomMemoText(text)
-        // 실시간으로 업데이트하지 않고 blur나 버튼 클릭 시 업데이트하도록 변경 가능
-        dbWithRedux.updateDeliveryMemo(text, 'custom')
+        // DB 업데이트 제거 - 클라이언트 상태로만 관리
     }
 
     const handleClearErrors = () => {
@@ -101,7 +126,7 @@ export const OrderSheetExampleWithRedux = () => {
         // 현재 상태에서 SubscriptionInfo 형식으로 데이터 생성
         const orderSheetData = mockData
         const deliveryAddressData = dbWithRedux.getDeliveryAddress()
-        const currentMemo = dbWithRedux.getSelectedDeliveryMemo()
+        const currentMemo = getCurrentSelectedMemo() // 클라이언트 상태에서 메모 가져오기
 
         const subscriptionInfo: SubscriptionInfo = {
             deviceType: 'PC',
@@ -141,7 +166,7 @@ export const OrderSheetExampleWithRedux = () => {
                         orderSheetData.result.subscriptionViewResult.deliveryAddressBook.defaultDeliveryAddress
                             .zipCode || '12345',
                     deliveryMemo: currentMemo.memo,
-                    deliveryMemoParticularInput: currentMemo.template === false && currentMemo.memo !== '',
+                    deliveryMemoParticularInput: currentMemo.type === 'custom' && currentMemo.memo !== '',
                     reuseMemo: currentMemo.reuseMemo,
                     particularDeliveryMemos: null,
                     addToAddressBooks: false,
@@ -308,7 +333,7 @@ export const OrderSheetExampleWithRedux = () => {
                                     fontSize: '14px',
                                 }}
                             >
-                                {memoOptions.map((option) => (
+                                {deliveryMemoOptions.map((option) => (
                                     <option key={option.id} value={option.id}>
                                         {option.label}
                                     </option>
@@ -351,9 +376,9 @@ export const OrderSheetExampleWithRedux = () => {
                         >
                             <strong>현재 선택된 메모:</strong>
                             <p style={{margin: '5px 0', fontStyle: 'italic'}}>
-                                {mockData?.result?.subscriptionViewResult?.deliveryAddressBook
-                                    ?.recentUsedDeliveryMemosReuse?.[0]?.memo || '메모 없음'}
+                                {getCurrentSelectedMemo().memo || '메모 없음'}
                             </p>
+                            <small style={{color: '#666'}}>타입: {getCurrentSelectedMemo().type}</small>
                         </div>
                     </div>
 

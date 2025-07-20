@@ -3,7 +3,6 @@ import {selectMockOrderSheetData, updateMockDeliveryAddress} from '../store/slic
 
 import type {
     DeliveryAddress,
-    DeliveryMemo,
     DeliveryMemoOption,
     OrderPayMethod,
     OrderProduct,
@@ -125,40 +124,40 @@ export const dbWithRedux = {
         return options
     },
 
-    // 현재 선택된 배송 메모 조회
-    getSelectedDeliveryMemo: (): DeliveryMemo => {
-        const orderSheetData = selectMockOrderSheetData(store.getState())
-        const memos = orderSheetData.result.subscriptionViewResult.deliveryAddressBook.recentUsedDeliveryMemosReuse
-        const firstMemo = memos[0] || {memo: '', memoSeq: 0, reuseMemo: false, template: false}
+    // 현재 선택된 배송 메모 조회 (사용하지 않음 - 클라이언트 상태로 관리)
+    // getSelectedDeliveryMemo: (): DeliveryMemo => {
+    //     const orderSheetData = selectMockOrderSheetData(store.getState())
+    //     const memos = orderSheetData.result.subscriptionViewResult.deliveryAddressBook.recentUsedDeliveryMemosReuse
+    //     const firstMemo = memos[0] || {memo: '', memoSeq: 0, reuseMemo: false, template: false}
 
-        return {
-            memo: firstMemo.memo,
-            memoSeq: firstMemo.memoSeq,
-            reuseMemo: firstMemo.reuseMemo,
-            template: firstMemo.template,
-        }
-    },
+    //     return {
+    //         memo: firstMemo.memo,
+    //         memoSeq: firstMemo.memoSeq,
+    //         reuseMemo: firstMemo.reuseMemo,
+    //         template: firstMemo.template,
+    //     }
+    // },
 
-    // 배송 메모 업데이트
-    updateDeliveryMemo: (memo: string, type: 'template' | 'custom' | 'none' = 'custom'): DeliveryMemo => {
-        const newMemo: DeliveryMemo = {
-            memo,
-            memoSeq: type === 'template' ? 1 : 0,
-            reuseMemo: type === 'template',
-            template: type === 'template',
-        }
+    // 배송 메모 업데이트 (사용하지 않음 - 클라이언트 상태로 관리)
+    // updateDeliveryMemo: (memo: string, type: 'template' | 'custom' | 'none' = 'custom'): DeliveryMemo => {
+    //     const newMemo: DeliveryMemo = {
+    //         memo,
+    //         memoSeq: type === 'template' ? 1 : 0,
+    //         reuseMemo: type === 'template',
+    //         template: type === 'template',
+    //     }
 
-        // 배송 주소와 함께 메모도 업데이트
-        const currentAddress = dbWithRedux.getDeliveryAddress()
-        store.dispatch(
-            updateMockDeliveryAddress({
-                ...currentAddress,
-                memo: newMemo,
-            }),
-        )
+    //     // 배송 주소와 함께 메모도 업데이트
+    //     const currentAddress = dbWithRedux.getDeliveryAddress()
+    //     store.dispatch(
+    //         updateMockDeliveryAddress({
+    //             ...currentAddress,
+    //             memo: newMemo,
+    //         }),
+    //     )
 
-        return newMemo
-    },
+    //     return newMemo
+    // },
 
     // 포인트 리워드 정보 조회
     getPointsReward: (): PointsReward => {

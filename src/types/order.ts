@@ -74,12 +74,14 @@ export interface OrderSheetState {
     orderProduct: OrderProduct | null
     orderPayMethod: OrderPayMethod | null
     pointsReward: PointsReward | null
+    deliveryMemoOptions: DeliveryMemoOption[]
     loading: {
         subscriptionDate: boolean
         deliveryAddress: boolean
         orderProduct: boolean
         orderPayMethod: boolean
         pointsReward: boolean
+        deliveryMemoOptions: boolean
     }
     error: {
         subscriptionDate: string | null
@@ -87,5 +89,6 @@ export interface OrderSheetState {
         orderProduct: string | null
         orderPayMethod: string | null
         pointsReward: string | null
+        deliveryMemoOptions: string | null
     }
 }
