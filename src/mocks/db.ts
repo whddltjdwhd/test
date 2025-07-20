@@ -1,6 +1,7 @@
 // 서버 데이터베이스 모킹 - Redux와 완전히 분리
-import orderSheetData from './data/orderSheetData.json'
+import originalData from './data/orderSheetData.json'
 
+import type {OrderSheetParams} from '../types/api/params'
 import type {
     DeliveryAddress,
     DeliveryMemoOption,
@@ -11,8 +12,32 @@ import type {
     SubscriptionDate,
 } from '../types/domain/order'
 
+// 동적으로 설정되는 주문서 데이터
+let orderSheetData = originalData
+
 // 순수한 서버 DB 모킹 - Redux 의존성 제거
 export const mockDB = {
+    // 실제 orderSheetData 초기화
+    initializeOrderSheet: (params: OrderSheetParams) => {
+        // eslint-disable-next-line no-console
+        console.log(`📋 주문서 초기화 - ID: ${params.orderSheetId}, Device: ${params.deviceType}`)
+        
+        // 실제 orderSheetData를 파라미터 값으로 업데이트
+        orderSheetData = {
+            ...originalData,
+            result: {
+                ...originalData.result,
+                subscriptionViewResult: {
+                    ...originalData.result.subscriptionViewResult,
+                    orderSheetId: params.orderSheetId, // 동적으로 설정
+                    backUrl: params.backUrl || originalData.result.subscriptionViewResult.backUrl,
+                }
+            }
+        }
+        
+        return orderSheetData
+    },
+
     // 구독 날짜 정보 조회
     getSubscriptionDate: (): SubscriptionDate => {
         const subscription = orderSheetData.result.subscriptionViewResult.subscription

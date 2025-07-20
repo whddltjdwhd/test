@@ -2,12 +2,17 @@ import {useEffect, useState} from 'react'
 
 import {useAppDispatch, useAppSelector} from '../store/hooks'
 import {selectMockOrderSheetData} from '../store/slices/mockDataSlice'
-import {clearError, fetchOrderSheetComplete, resetOrderSheet} from '../store/slices/orderSheetCompleteSlice'
+import {clearError, fetchOrderSheetComplete} from '../store/slices/orderSheetCompleteSlice'
+import {DEFAULT_ORDER_SHEET_PARAMS} from '../types/api/params'
 
+import type {OrderSheetParams} from '../types/api/params'
 import type {SubscriptionInfo} from '../types/api/request'
 
 export const OrderSheetSingleApi = () => {
     const dispatch = useAppDispatch()
+
+    // 주문서 파라미터 상태 (사용자가 변경 가능)
+    const [orderSheetParams, setOrderSheetParams] = useState<OrderSheetParams>(DEFAULT_ORDER_SHEET_PARAMS)
 
     // 배송 메모 관련 상태 (클라이언트에서만 관리)
     const [selectedMemoIndex, setSelectedMemoIndex] = useState<number>(0)
@@ -65,9 +70,9 @@ export const OrderSheetSingleApi = () => {
     }
 
     useEffect(() => {
-        // 컴포넌트 마운트 시 단일 API로 모든 데이터 fetch
-        dispatch(fetchOrderSheetComplete())
-    }, [dispatch])
+        // 컴포넌트 마운트 시 파라미터와 함께 단일 API로 모든 데이터 fetch
+        dispatch(fetchOrderSheetComplete(orderSheetParams))
+    }, [dispatch, orderSheetParams])
 
     const handleMemoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedIndex = parseInt(event.target.value, 10)
@@ -93,11 +98,15 @@ export const OrderSheetSingleApi = () => {
         dispatch(clearError())
     }
 
-    const handleReset = () => {
-        dispatch(resetOrderSheet())
-        setSelectedMemoIndex(0)
-        setCustomMemoText('')
-        setReuseCustomMemo(false)
+    const handleRefreshWithNewParams = () => {
+        // orderSheetId를 새로 생성해서 테스트
+        const newParams: OrderSheetParams = {
+            ...orderSheetParams,
+            orderSheetId: `test-${Date.now()}`,
+            deviceType: orderSheetParams.deviceType === 'PC' ? 'MOBILE' : 'PC',
+        }
+        setOrderSheetParams(newParams)
+        dispatch(fetchOrderSheetComplete(newParams))
     }
 
     const handleSubmit = () => {
@@ -110,10 +119,10 @@ export const OrderSheetSingleApi = () => {
         const orderSheetData = mockData
 
         const subscriptionInfo: SubscriptionInfo = {
-            deviceType: 'PC',
-            isMobileDisplay: false,
-            osType: 'WINDOWS',
-            subscriptionSheetId: orderSheetData.result.subscriptionViewResult.orderSheetId,
+            deviceType: orderSheetParams.deviceType,
+            isMobileDisplay: orderSheetParams.isMobileDisplay,
+            osType: orderSheetParams.osType,
+            subscriptionSheetId: orderSheetParams.orderSheetId, // 동적으로 설정된 값 사용
             startRequestBody: {
                 agreements: {
                     agreeSubscriptionPay: true,
@@ -186,7 +195,7 @@ export const OrderSheetSingleApi = () => {
             <div>
                 <div>❌ Error occurred: {error}</div>
                 <button onClick={handleClearError}>Clear Error</button>
-                <button onClick={() => dispatch(fetchOrderSheetComplete())}>Retry</button>
+                <button onClick={() => dispatch(fetchOrderSheetComplete(orderSheetParams))}>Retry</button>
             </div>
         )
     }
@@ -201,10 +210,14 @@ export const OrderSheetSingleApi = () => {
             <div style={{marginBottom: '20px', padding: '10px', backgroundColor: '#e8f5e8', borderRadius: '5px'}}>
                 <strong>✅ 성능 개선:</strong> 1번의 API 호출로 모든 데이터 로딩 완료!
                 <br />
-                <button onClick={handleReset} style={{marginTop: '10px', marginRight: '10px'}}>
-                    Reset
+                <strong>현재 주문서 ID:</strong> {orderSheetParams.orderSheetId}
+                <br />
+                <strong>디바이스:</strong> {orderSheetParams.deviceType}
+                <br />
+                <button onClick={handleRefreshWithNewParams} style={{marginTop: '10px', marginRight: '10px'}}>
+                    🔄 새 파라미터로 테스트
                 </button>
-                <button onClick={() => dispatch(fetchOrderSheetComplete())}>Refresh Data</button>
+                <button onClick={() => dispatch(fetchOrderSheetComplete(orderSheetParams))}>Refresh Data</button>
             </div>
 
             <div style={{display: 'flex', gap: '20px'}}>

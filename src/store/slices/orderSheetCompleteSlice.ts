@@ -2,17 +2,30 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 
 import {API_ENDPOINTS} from '../../constants/api'
 import {apiClient} from '../../lib/axios'
+import {DEFAULT_ORDER_SHEET_PARAMS} from '../../types/api/params'
 
+import type {OrderSheetParams} from '../../types/api/params'
 import type {OrderSheetCompleteResponse, OrderSheetState} from '../../types/ui/orderSheetComplete'
 import type {AxiosError} from 'axios'
 
 // 단일 API 호출로 모든 주문서 데이터 조회
 export const fetchOrderSheetComplete = createAsyncThunk(
     'orderSheetComplete/fetchComplete',
-    async (_, {rejectWithValue}) => {
+    async (params: OrderSheetParams = DEFAULT_ORDER_SHEET_PARAMS, {rejectWithValue}) => {
         const startTime = performance.now()
         try {
-            const response = await apiClient.get<OrderSheetCompleteResponse>(API_ENDPOINTS.ORDER_SHEET.COMPLETE)
+            // 쿼리 파라미터로 전달
+            const queryParams = new URLSearchParams({
+                orderSheetId: params.orderSheetId,
+                deviceType: params.deviceType,
+                osType: params.osType,
+                isMobileDisplay: params.isMobileDisplay.toString(),
+                ...(params.backUrl && { backUrl: params.backUrl }),
+            })
+
+            const response = await apiClient.get<OrderSheetCompleteResponse>(
+                `${API_ENDPOINTS.ORDER_SHEET.COMPLETE}?${queryParams.toString()}`
+            )
             const endTime = performance.now()
             // eslint-disable-next-line no-console
             console.log(`🚀 Single API 호출 시간: ${(endTime - startTime).toFixed(2)}ms`)
