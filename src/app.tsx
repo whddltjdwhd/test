@@ -1,7 +1,18 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 function App() {
     const [count, setCount] = useState(0)
+
+    useEffect(() => {
+        fetch('http://localhost:3000/user')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('User data:', data)
+            })
+            .catch((error) => {
+                console.error('Error fetching user data:', error)
+            })
+    }, [])
 
     return (
         <>
