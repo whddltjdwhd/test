@@ -3,7 +3,7 @@ import {http, HttpResponse} from 'msw'
 import {dbWithRedux} from './dbWithRedux'
 import {API_ENDPOINTS, createApiUrl} from '../constants/api'
 
-import type {DeliveryAddress} from '../types/order'
+import type {DeliveryAddress} from '../types/domain/order'
 
 export const handlers = [
     // 구독 날짜 정보 조회

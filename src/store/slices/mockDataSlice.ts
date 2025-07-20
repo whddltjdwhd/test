@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit'
 
 import initialOrderSheetData from '../../mocks/data/orderSheetData.json'
 
-import type {DeliveryAddress} from '../../types/order'
+import type {DeliveryAddress} from '../../types/domain/order'
 import type {PayloadAction} from '@reduxjs/toolkit'
 
 // Mock 데이터를 Redux에서 직접 관리

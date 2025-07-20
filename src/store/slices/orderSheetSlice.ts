@@ -7,10 +7,10 @@ import type {
     DeliveryAddress,
     OrderPayMethod,
     OrderProduct,
-    OrderSheetState,
     PointsReward,
     SubscriptionDate,
-} from '../../types/order'
+} from '../../types/domain/order'
+import type {OrderSheetState} from '../../types/ui/orderSheet'
 import type {AxiosError} from 'axios'
 
 // 구독 날짜 정보 조회 thunk

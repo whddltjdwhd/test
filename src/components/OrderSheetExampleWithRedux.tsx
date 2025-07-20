@@ -13,7 +13,7 @@ import {
     fetchSubscriptionDate,
 } from '../store/slices/orderSheetSlice'
 
-import type {SubscriptionInfo} from '../types/submit'
+import type {SubscriptionInfo} from '../types/api/request'
 
 export const OrderSheetExampleWithRedux = () => {
     const dispatch = useAppDispatch()

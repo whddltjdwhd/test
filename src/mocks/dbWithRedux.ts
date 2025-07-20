@@ -9,7 +9,7 @@ import type {
     Period,
     PointsReward,
     SubscriptionDate,
-} from '../types/order'
+} from '../types/domain/order'
 
 // Redux store에서 데이터를 가져오는 함수들
 export const dbWithRedux = {
