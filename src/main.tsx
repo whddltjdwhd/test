@@ -1,8 +1,10 @@
 import {StrictMode} from 'react'
 
 import {createRoot} from 'react-dom/client'
+import {Provider} from 'react-redux'
 
 import App from './App'
+import {store} from './store'
 
 const ENV = import.meta.env.VITE_ENV
 
@@ -13,6 +15,8 @@ if (ENV === 'development') {
 
 createRoot(document.querySelector('#root')!).render(
     <StrictMode>
-        <App />
+        <Provider store={store}>
+            <App />
+        </Provider>
     </StrictMode>,
 )

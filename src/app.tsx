@@ -1,18 +1,9 @@
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
+
+import {OrderSheetExampleWithRedux} from './components/OrderSheetExampleWithRedux'
 
 function App() {
     const [count, setCount] = useState(0)
-
-    useEffect(() => {
-        fetch('http://localhost:3000/user')
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('User data:', data)
-            })
-            .catch((error) => {
-                console.error('Error fetching user data:', error)
-            })
-    }, [])
 
     return (
         <>
@@ -24,6 +15,10 @@ function App() {
                     Edit <code>src/App.tsx</code> and save to test HMR
                 </p>
             </div>
+
+            {/* Redux + Axios + Mock 데이터 통합 컴포넌트 */}
+            <OrderSheetExampleWithRedux />
+
             <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
         </>
     )
