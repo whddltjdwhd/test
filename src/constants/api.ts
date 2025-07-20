@@ -9,6 +9,7 @@ export const API_ENDPOINTS = {
         ORDER_PRODUCT: '/orderSheet/product',
         ORDER_PAY_METHOD: '/orderSheet/payment/method',
         POINTS_REWARD: '/orderSheet/points/reward',
+        DELIVERY_MEMO_OPTIONS: '/orderSheet/delivery/memo/options',
     },
 } as const
 

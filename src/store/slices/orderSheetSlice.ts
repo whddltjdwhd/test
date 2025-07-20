@@ -79,10 +79,8 @@ export const fetchDeliveryMemoOptions = createAsyncThunk(
     'orderSheet/fetchDeliveryMemoOptions',
     async (_, {rejectWithValue}) => {
         try {
-            // 실제로는 API 호출이지만, 현재는 dbWithRedux를 사용
-            const {dbWithRedux} = await import('../../mocks/dbWithRedux')
-            const options = dbWithRedux.getDeliveryMemoOptions()
-            return options
+            const response = await apiClient.get(API_ENDPOINTS.ORDER_SHEET.DELIVERY_MEMO_OPTIONS)
+            return response.data
         } catch (error) {
             const axiosError = error as AxiosError
             return rejectWithValue(axiosError.response?.data || axiosError.message)
