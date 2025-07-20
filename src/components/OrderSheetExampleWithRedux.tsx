@@ -14,6 +14,7 @@ import {
 } from '../store/slices/orderSheetSlice'
 
 import type {DeliveryMemoOption} from '../types/order'
+import type {SubscriptionInfo} from '../types/submit'
 
 export const OrderSheetExampleWithRedux = () => {
     const dispatch = useAppDispatch()
@@ -94,6 +95,82 @@ export const OrderSheetExampleWithRedux = () => {
 
     const handleClearErrors = () => {
         dispatch(clearErrors())
+    }
+
+    const handleSubmit = () => {
+        // 현재 상태에서 SubscriptionInfo 형식으로 데이터 생성
+        const orderSheetData = mockData
+        const deliveryAddressData = dbWithRedux.getDeliveryAddress()
+        const currentMemo = dbWithRedux.getSelectedDeliveryMemo()
+
+        const subscriptionInfo: SubscriptionInfo = {
+            deviceType: 'PC',
+            isMobileDisplay: false,
+            osType: 'WINDOWS',
+            subscriptionSheetId: orderSheetData.result.subscriptionViewResult.orderSheetId,
+            startRequestBody: {
+                agreements: {
+                    agreeSubscriptionPay: true,
+                },
+                coupon: {
+                    selectedProductCouponIdsByOrderSheetItemId: {
+                        '2025072016356181': [],
+                    },
+                    selectedImmediateDiscountPolicyNosByOrderSheetItemId: {},
+                    selectedProductDuplicateCouponIdsByOrderSheetItemId: {},
+                    selectedProductDuplicateCouponIdsByOrderSheetItemId2: {},
+                    selectedSubscriptionDiscountPolicesByOrderSheetItemId: {
+                        '2025072016356181': [],
+                    },
+                    selectedStoreCouponIdsByMerchantNo: {},
+                },
+                deliveryAddress: {
+                    addressName: deliveryAddressData.addressName,
+                    baseAddress:
+                        orderSheetData.result.subscriptionViewResult.deliveryAddressBook.defaultDeliveryAddress
+                            .baseAddress,
+                    detailAddress:
+                        orderSheetData.result.subscriptionViewResult.deliveryAddressBook.defaultDeliveryAddress
+                            .detailAddress,
+                    receiverName: deliveryAddressData.receiverName,
+                    road: true,
+                    telNo1: deliveryAddressData.telNo1,
+                    telNo2: deliveryAddressData.telNo2,
+                    useVirtualPhoneNumber: false,
+                    zipCode:
+                        orderSheetData.result.subscriptionViewResult.deliveryAddressBook.defaultDeliveryAddress
+                            .zipCode || '12345',
+                    deliveryMemo: currentMemo.memo,
+                    deliveryMemoParticularInput: currentMemo.template === false && currentMemo.memo !== '',
+                    reuseMemo: currentMemo.reuseMemo,
+                    particularDeliveryMemos: null,
+                    addToAddressBooks: false,
+                    entryMethodContent: null,
+                    entryMethodType: null,
+                    personalCustomsCode: null,
+                    personalCustomsCodeNeeded: false,
+                    pickupLocationContent: null,
+                    pickupLocationType: null,
+                    saveAsPrimary: false,
+                    buildingManagementNo: '',
+                    locationX: '0',
+                    locationY: '0',
+                },
+                payment: {
+                    expectedPayAmount: orderSheetData.result.subscriptionViewResult.products[0].items[0].orderAmount,
+                    subscriptionPayMeansNo: 'CARD_001',
+                    useAllCoupon: false,
+                },
+            },
+        }
+
+        // eslint-disable-next-line no-console
+        console.log('=== 주문 제출 데이터 ===')
+        // eslint-disable-next-line no-console
+        console.log(JSON.stringify(subscriptionInfo, null, 2))
+
+        // 실제 API 호출 시뮬레이션
+        alert('주문이 제출되었습니다! 콘솔을 확인해주세요.')
     }
 
     const isLoading = Object.values(loading).some(Boolean)
@@ -280,10 +357,65 @@ export const OrderSheetExampleWithRedux = () => {
                         </div>
                     </div>
 
-                    <button onClick={handleUpdateMockData} style={{marginTop: '10px'}}>
+                    <button onClick={handleUpdateMockData} style={{marginTop: '10px', marginRight: '10px'}}>
                         Mock 데이터 직접 업데이트
                     </button>
+                    <button
+                        onClick={handleSubmit}
+                        style={{
+                            marginTop: '10px',
+                            backgroundColor: '#007bff',
+                            color: 'white',
+                            border: 'none',
+                            padding: '10px 20px',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            fontSize: '14px',
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        주문 제출
+                    </button>
                 </div>
+            </div>
+
+            {/* 주문 제출 섹션 */}
+            <div
+                style={{
+                    marginTop: '30px',
+                    padding: '20px',
+                    border: '2px solid #007bff',
+                    borderRadius: '8px',
+                    backgroundColor: '#f8f9fa',
+                    textAlign: 'center',
+                }}
+            >
+                <h2 style={{margin: '0 0 15px 0', color: '#007bff'}}>주문 제출</h2>
+                <p style={{margin: '0 0 20px 0', color: '#666'}}>
+                    주문 정보를 확인하고 제출 버튼을 클릭하세요. 제출 데이터는 콘솔에서 확인할 수 있습니다.
+                </p>
+                <button
+                    onClick={handleSubmit}
+                    style={{
+                        backgroundColor: '#007bff',
+                        color: 'white',
+                        border: 'none',
+                        padding: '15px 30px',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        transition: 'background-color 0.2s',
+                    }}
+                    onMouseOver={(e) => {
+                        e.currentTarget.style.backgroundColor = '#0056b3'
+                    }}
+                    onMouseOut={(e) => {
+                        e.currentTarget.style.backgroundColor = '#007bff'
+                    }}
+                >
+                    🚀 주문 제출하기
+                </button>
             </div>
         </div>
     )
