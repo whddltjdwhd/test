@@ -90,23 +90,6 @@ export const fetchDeliveryMemoOptions = createAsyncThunk(
     },
 )
 
-// 배송 주소 업데이트 thunk
-export const updateDeliveryAddress = createAsyncThunk(
-    'orderSheet/updateDeliveryAddress',
-    async (deliveryData: Partial<DeliveryAddress>, {rejectWithValue}) => {
-        try {
-            const response = await apiClient.put<DeliveryAddress>(
-                API_ENDPOINTS.ORDER_SHEET.DELIVERY_ADDRESS,
-                deliveryData,
-            )
-            return response.data
-        } catch (error) {
-            const axiosError = error as AxiosError
-            return rejectWithValue(axiosError.response?.data || axiosError.message)
-        }
-    },
-)
-
 const initialState: OrderSheetState = {
     subscriptionDate: null,
     deliveryAddress: null,
@@ -237,21 +220,6 @@ const orderSheetSlice = createSlice({
             .addCase(fetchDeliveryMemoOptions.rejected, (state, action) => {
                 state.loading.deliveryMemoOptions = false
                 state.error.deliveryMemoOptions = action.payload as string
-            })
-
-        // 배송 주소 업데이트
-        builder
-            .addCase(updateDeliveryAddress.pending, (state) => {
-                state.loading.deliveryAddress = true
-                state.error.deliveryAddress = null
-            })
-            .addCase(updateDeliveryAddress.fulfilled, (state, action) => {
-                state.loading.deliveryAddress = false
-                state.deliveryAddress = action.payload
-            })
-            .addCase(updateDeliveryAddress.rejected, (state, action) => {
-                state.loading.deliveryAddress = false
-                state.error.deliveryAddress = action.payload as string
             })
     },
 })

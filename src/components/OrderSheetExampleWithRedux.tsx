@@ -11,7 +11,6 @@ import {
     fetchOrderProduct,
     fetchPointsReward,
     fetchSubscriptionDate,
-    updateDeliveryAddress,
 } from '../store/slices/orderSheetSlice'
 
 import type {SubscriptionInfo} from '../types/submit'
@@ -81,16 +80,6 @@ export const OrderSheetExampleWithRedux = () => {
         dispatch(fetchPointsReward())
         dispatch(fetchDeliveryMemoOptions()) // Redux thunk로 배송 메모 옵션 로드
     }, [dispatch])
-
-    const handleUpdateDeliveryAddress = () => {
-        // Redux thunk를 통한 API 호출
-        dispatch(
-            updateDeliveryAddress({
-                receiverName: '새로운 수신자',
-                addressName: '새 주소',
-            }),
-        )
-    }
 
     const handleUpdateMockData = () => {
         // Mock 데이터 직접 업데이트 (Redux action)
@@ -285,8 +274,6 @@ export const OrderSheetExampleWithRedux = () => {
                             <p>리뷰 리워드: {pointsReward.reviewReward}</p>
                         </div>
                     )}
-
-                    <button onClick={handleUpdateDeliveryAddress}>API로 배송지 업데이트</button>
                 </div>
 
                 {/* Mock 데이터 */}
