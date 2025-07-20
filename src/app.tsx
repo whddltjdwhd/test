@@ -6,7 +6,7 @@ function App() {
     return (
         <>
             <div />
-            <h1>hihi?@?</h1>
+            <h1>이성종!??</h1>
             <div className="card">
                 <button onClick={() => setCount((c) => c + 1)}>count is {count}</button>
                 <p>
