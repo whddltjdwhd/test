@@ -1,0 +1,305 @@
+{
+    "code": "00",
+    "message": "성공",
+    "result": {
+        "subscriptionViewResult": {
+            "orderSheetId": "9c77f72c-1650-a698-4a93-d1b03a5b3989",
+            "sellerRegisterType": "IMMEDIATE_ORDER",
+            "backUrl": "https://brand.naver.com/baeksansoo/products/556383444?nl-au=43736cd13caf40b19a55d3fd7e74b7f3",
+            "cultureBenefit": false,
+            "products": [
+                {
+                    "orderSheetProductId": "2025072085615773",
+                    "merchantProductId": "556383444",
+                    "originalProductNo": "556383444",
+                    "productName": "(정기구독) 백산수 무라벨 2L 24병 생수",
+                    "productUrl": "https://smartstore.naver.com/main/products/556383444",
+                    "productImageUrl": "https://img.pay.naver.net/o/proxy/phinf/shop1/20250327_61/1743060594852PwY10_PNG/34784370791977603_1609273073.png?type=m120",
+                    "salePrice": 23800,
+                    "gift": null,
+                    "taxType": "TAXATION",
+                    "merchantNo": 500026091,
+                    "merchantChannelServiceType": "STOREFARM",
+                    "merchantChannelName": "농심공식브랜드몰",
+                    "wholeCategoryId": "50000006>50000148>50002032",
+                    "categoryId": "50002032",
+                    "largeCategoryId": "50000006",
+                    "middleCategoryId": "50000148",
+                    "smallCategoryId": "50002032",
+                    "detailCategoryId": null,
+                    "naverBenefit": true,
+                    "items": [
+                        {
+                            "orderSheetItemId": "2025072016356181",
+                            "productClassType": "SINGLE",
+                            "itemNo": "556383444",
+                            "price": 0,
+                            "quantity": 1,
+                            "orderAmount": 23800,
+                            "optionContents": "",
+                            "elements": [],
+                            "branchBenefitType": null,
+                            "branchBenefitValue": null,
+                            "benefitApplyValue": null,
+                            "branchId": null
+                        }
+                    ],
+                    "deliveryGroupKey": "2025072085615773",
+                    "billingCpId": "50000148",
+                    "billingItemId": "50002032",
+                    "overseasDelivery": false,
+                    "individualCustomUniqueCodeUsed": false,
+                    "deliveryAttributeType": "ARRIVAL_GUARANTEE",
+                    "branchDeliveryView": null,
+                    "todayDispatch": false,
+                    "todayDispatchBasisTime": null,
+                    "todayDispatchExpectedDateTime": null,
+                    "todayDispatchNotAppliedReason": null,
+                    "sendDuration": null,
+                    "hopeDelivery": null,
+                    "preOrder": null,
+                    "customOrderDetailType": null,
+                    "deliveryPrediction": null,
+                    "deliveryPredictions": [],
+                    "ecouponBarcodeConnect": false,
+                    "arrivalGuarantee": {
+                        "rmid": "3Q",
+                        "outboundLocationId": null,
+                        "arrivalGuaranteeDateTime": "2025-07-21T14:59:00Z",
+                        "deliveryTagType": null
+                    },
+                    "doubleMinimumSaleUnitQuantity": null,
+                    "installationProduct": null,
+                    "ecoupon": false,
+                    "book": false,
+                    "traditionalAlcohol": false,
+                    "alcohol": false,
+                    "sellerExceptionalCategoryType": "NONE"
+                }
+            ],
+            "delivery": {
+                "deliveryGroupsByKey": {
+                    "2025072085615773": {
+                        "deliveryFee": 0,
+                        "additionalDeliveryFee": 0,
+                        "deliveryFeePayType": null,
+                        "deliveryPolicy": {
+                            "deliveryMethodType": "DELIVERY",
+                            "deliveryFeeClassType": "FREE",
+                            "deliveryFeePayType": null,
+                            "baseFee": 0,
+                            "freeConditionalAmount": null,
+                            "repeatQuantity": null,
+                            "secondBaseQuantity": null,
+                            "secondExtraFee": null,
+                            "thirdBaseQuantity": null,
+                            "thirdExtraFee": null,
+                            "deliveryAreaType": null,
+                            "deliveryArea2ExtraFee": null,
+                            "deliveryArea3ExtraFee": null
+                        }
+                    }
+                },
+                "totalPrepayOrderDeliveryFee": 0,
+                "totalOrderDeliveryFee": 0
+            },
+            "deliveryAddressBook": {
+                "defaultDeliveryAddress": {
+                    "addressId": "e7433d21eb73fbfd5c3290a1148481652c3bccd026d74c397ee3f5cb53aeabd9",
+                    "addressName": "집",
+                    "receiverName": "이성종",
+                    "zipCode": "03373",
+                    "baseAddress": "서울특별시 은평구 통일로 610 (녹번동, 힐스테이트 녹번)",
+                    "detailAddress": "107동 102호",
+                    "road": true,
+                    "primary": true,
+                    "telNo1": "010-8317-2824",
+                    "telNo2": "010-5252-6955",
+                    "pickupLocationType": null,
+                    "pickupLocationContent": null,
+                    "entryMethodType": null,
+                    "entryMethodContent": null,
+                    "buildingManagementNo": "1138010200100210269043131",
+                    "locationX": "126.9363535",
+                    "locationY": "37.6019869",
+                    "registered": true
+                },
+                "restrictedVirtualPhoneNumbers": [
+                    "080",
+                    "0130",
+                    "0303",
+                    "0502",
+                    "0503",
+                    "0504",
+                    "0505",
+                    "0506",
+                    "0507",
+                    "0508",
+                    "050",
+                    "012",
+                    "059"
+                ],
+                "onVirtualPhoneNumber": true,
+                "recentUsedDeliveryMemosReuse": [
+                    {
+                        "memoSeq": 0,
+                        "memo": "문 앞에 놓아주세요",
+                        "template": true,
+                        "reuseMemo": false
+                    },
+                    {
+                        "memoSeq": 0,
+                        "memo": "부재 시 연락 부탁드려요",
+                        "template": true,
+                        "reuseMemo": false
+                    },
+                    {
+                        "memoSeq": 0,
+                        "memo": "배송 전 미리 연락해 주세요",
+                        "template": true,
+                        "reuseMemo": false
+                    }
+                ]
+            },
+            "coupon": {
+                "selectedProductCouponListsByOrderSheetItemId": {
+                    "2025072016356181": []
+                },
+                "selectedProductDuplicateCouponsByOrderSheetItemId": {},
+                "selectedImmediateDiscountListsByOrderSheetItemId": {},
+                "selectedStoreCouponsByMerchantNo": {},
+                "discountOptimization": true,
+                "discountsByItemId": {
+                    "2025072016356181": [
+                        {
+                            "discountType": "SUBSCRIPTION_DISCOUNT",
+                            "discountProviderType": "SELLER",
+                            "baseAmount": 23800,
+                            "discountAmount": 720,
+                            "discountUnitType": "AMOUNT",
+                            "discountValue": 720,
+                            "validityPeriodEndDateTime": null,
+                            "multiPurchaseMinOrderValue": null,
+                            "multiPurchaseUnitType": null
+                        }
+                    ]
+                },
+                "productCoupons": {
+                    "productCouponListsByOrderSheetItemId": {},
+                    "productDuplicateCouponListsByOrderSheetItemId": {},
+                    "immediateDiscountListsByOrderSheetItemId": {}
+                },
+                "storeCoupons": {
+                    "storeCouponListsByMerchantNo": {}
+                },
+                "usableProductAndStoreDiscountCount": 0,
+                "validProductAndStoreCouponCount": 0,
+                "fallback": false
+            },
+            "naverMembership": {
+                "quickJoinMembershipBannerExposure": false,
+                "subscribed": false,
+                "membershipPlcc": {
+                    "plccExpectedPercentage": 0.07,
+                    "plccMaximumAmount": 20000,
+                    "plccCardTextBannerExposed": true,
+                    "plccCardStatementExposed": true,
+                    "plccPointBenefitTextBannerExposed": false
+                },
+                "membershipBenefitLayerExposed": false,
+                "currentEpisode": null
+            },
+            "chargePointUser": {
+                "resultType": "SUCCESS",
+                "userStatus": "NOT_OPEN",
+                "coinType": "DEFAULT",
+                "maskedPaymoneyBankAccountNo": null,
+                "rechargePointReloadingLimited": false,
+                "memberType": "000",
+                "paymentAlwaysAvailable": true
+            },
+            "merchantsByMerchantNo": {
+                "500026091": {
+                    "merchantId": "sbi2013",
+                    "name": "농심공식브랜드몰",
+                    "merchantUrl": "https://smartstore.naver.com/sbi",
+                    "contactEmailAddressExposed": false,
+                    "contactEmailAddress": null,
+                    "merchantType": "DBSN",
+                    "merchantExceptionPolicyTypes": [],
+                    "merchantImageUrl": "https://img.pay.naver.net/o/proxy/phinf/shop1/20220512_226/1652340141705u7FMQ_JPEG/53475975409264709_1940563534.jpg?type=m120",
+                    "personalCustomsCodeExposed": false
+                }
+            },
+            "registeredDateTime": "2025-07-20T11:15:00.893527114Z",
+            "subscription": {
+                "firstDeliveryDate": "2025-07-31",
+                "firstPaymentDate": "2025-07-29",
+                "periodType": "ONCE_PER_ONE_WEEK",
+                "periodCount": 4,
+                "selectableMaxPeriodCount": 12,
+                "subscriptionDiscountListsByOrderSheetItemId": {
+                    "2025072016356181": [
+                        {
+                            "discountAmount": 720,
+                            "discountUnitType": "RATIO",
+                            "discountValue": 3,
+                            "benefitType": "COUNT_DISCOUNT",
+                            "discountStartPeriod": 1
+                        }
+                    ]
+                }
+            }
+        },
+        "paymentMethodsResult": {
+            "directOrderPayMethodNo": 2025071511094372,
+            "usePointAll": true,
+            "firstPayMethod": {
+                "payMethodType": "RECHARGE_POINT",
+                "key": "163585909",
+                "corporationCode": "004",
+                "corporationName": "KB국민",
+                "valid": true,
+                "invalidReason": null,
+                "reward": null,
+                "payMethodImageUrl": null,
+                "payMethodName": "네이버페이 머니 결제",
+                "payMethodDisplayNumber": "938*******2587",
+                "cardName": null,
+                "cardType": null
+            },
+            "secondPayMethod": {
+                "payMethodType": "CARD_EASY_PAY",
+                "key": "20191203170311269341",
+                "corporationCode": "CCKM",
+                "corporationName": "국민카드",
+                "valid": true,
+                "invalidReason": null,
+                "reward": false,
+                "payMethodImageUrl": "https://ssl.pstatic.net/static.pay/card/plate-images/210902061624/kb/31e4b2cce76c17cbf125a8db9af36baa29abdbd5.png",
+                "payMethodName": "카드 간편결제",
+                "payMethodDisplayNumber": "****-****-****-7156",
+                "cardName": "KB국민 nori 체크카드(비RF)",
+                "cardType": "CHECK"
+            },
+            "cashReceipt": {
+                "issueNumber": "010-8317-2824",
+                "usageType": "PERSONAL_INCOME_TAX",
+                "issueType": "PR_CELL_PHONE_NUMBER",
+                "businessRegistrationNumberFirst": null,
+                "businessRegistrationNumberSecond": null,
+                "businessRegistrationNumberThird": null,
+                "mobilePhoneNumberFirst": "010",
+                "mobilePhoneNumberSecond": "8317",
+                "mobilePhoneNumberThird": "2824",
+                "cashReceiptCardNumberFirst": null,
+                "cashReceiptCardNumberSecond": null,
+                "cashReceiptCardNumberThird": null,
+                "cashReceiptCardNumberFourth": null
+            },
+            "cashReceiptApply": true,
+            "registeredDateTime": "2025-07-15T04:41:52.183Z",
+            "modifiedDateTime": "2025-07-16T08:56:51.061Z"
+        }
+    }
+}
