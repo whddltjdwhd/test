@@ -1,6 +1,3 @@
-// src/mocks/dbWithRedux.ts
-// Redux store와 연동된 개선된 db 유틸리티
-
 import {store} from '../store'
 import {selectMockOrderSheetData, updateMockDeliveryAddress} from '../store/slices/mockDataSlice'
 
@@ -15,14 +12,9 @@ import type {
 
 // Redux store에서 데이터를 가져오는 함수들
 export const dbWithRedux = {
-    // 현재 상태 가져오기
-    getCurrentState: () => {
-        return selectMockOrderSheetData(store.getState())
-    },
-
     // 구독 날짜 정보 조회
     getSubscriptionDate: (): SubscriptionDate => {
-        const orderSheetData = dbWithRedux.getCurrentState()
+        const orderSheetData = selectMockOrderSheetData(store.getState())
         const subscription = orderSheetData.result.subscriptionViewResult.subscription
         return {
             firstDeliveryDate: subscription.firstDeliveryDate,
@@ -34,16 +26,13 @@ export const dbWithRedux = {
 
     // 배송 주소 정보 조회
     getDeliveryAddress: (): DeliveryAddress => {
-        const orderSheetData = dbWithRedux.getCurrentState()
+        const orderSheetData = selectMockOrderSheetData(store.getState())
         const address = orderSheetData.result.subscriptionViewResult.deliveryAddressBook.defaultDeliveryAddress
         const memos = orderSheetData.result.subscriptionViewResult.deliveryAddressBook.recentUsedDeliveryMemosReuse
         const firstMemo = memos[0] || {memo: '', memoSeq: 0, reuseMemo: false, template: false}
 
         return {
-            receiverName: address.receiverName,
-            addressName: address.addressName,
-            telNo1: address.telNo1,
-            telNo2: address.telNo2,
+            ...address,
             address: `${address.baseAddress} ${address.detailAddress}`,
             memo: {
                 memo: firstMemo.memo,
@@ -56,7 +45,7 @@ export const dbWithRedux = {
 
     // 주문 상품 정보 조회
     getOrderProduct: (): OrderProduct => {
-        const orderSheetData = dbWithRedux.getCurrentState()
+        const orderSheetData = selectMockOrderSheetData(store.getState())
         const product = orderSheetData.result.subscriptionViewResult.products[0]
         const item = product.items[0]
         const deliveryGroups = orderSheetData.result.subscriptionViewResult.delivery.deliveryGroupsByKey
@@ -80,7 +69,7 @@ export const dbWithRedux = {
 
     // 결제 방법 정보 조회
     getOrderPayMethod: (): OrderPayMethod => {
-        const orderSheetData = dbWithRedux.getCurrentState()
+        const orderSheetData = selectMockOrderSheetData(store.getState())
         const paymentMethods = orderSheetData.result.paymentMethodsResult
         const payMethodNames = [
             paymentMethods.firstPayMethod.payMethodName,
@@ -97,7 +86,7 @@ export const dbWithRedux = {
 
     // 포인트 리워드 정보 조회
     getPointsReward: (): PointsReward => {
-        const orderSheetData = dbWithRedux.getCurrentState()
+        const orderSheetData = selectMockOrderSheetData(store.getState())
         const product = orderSheetData.result.subscriptionViewResult.products[0]
         const orderAmount = product.items[0].orderAmount
 
