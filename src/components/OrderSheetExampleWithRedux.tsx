@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 
 import {dbWithRedux} from '../mocks/dbWithRedux'
 import {useAppDispatch, useAppSelector} from '../store/hooks'
-import {selectMockOrderSheetData, updateMockDeliveryAddress} from '../store/slices/mockDataSlice'
+import {selectMockOrderSheetData} from '../store/slices/mockDataSlice'
 import {
     clearErrors,
     fetchDeliveryAddress,
@@ -21,6 +21,7 @@ export const OrderSheetExampleWithRedux = () => {
     // 배송 메모 관련 상태 (클라이언트에서만 관리)
     const [selectedMemoOption, setSelectedMemoOption] = useState<string>('default')
     const [customMemoText, setCustomMemoText] = useState<string>('')
+    const [reuseCustomMemo, setReuseCustomMemo] = useState<boolean>(false)
 
     // API 데이터 (Redux thunk 결과)
     const {
@@ -43,7 +44,7 @@ export const OrderSheetExampleWithRedux = () => {
             return {
                 memo: customMemoText,
                 type: 'custom' as const,
-                reuseMemo: false,
+                reuseMemo: reuseCustomMemo, // 사용자가 설정한 재사용 여부
                 template: false,
             }
         } else if (selectedMemoOption === 'none') {
@@ -58,7 +59,7 @@ export const OrderSheetExampleWithRedux = () => {
             return {
                 memo: selectedOption?.value || '',
                 type: 'template' as const,
-                reuseMemo: true,
+                reuseMemo: true, // 템플릿은 항상 재사용 가능
                 template: true,
             }
         } else {
@@ -81,23 +82,14 @@ export const OrderSheetExampleWithRedux = () => {
         dispatch(fetchDeliveryMemoOptions()) // Redux thunk로 배송 메모 옵션 로드
     }, [dispatch])
 
-    const handleUpdateMockData = () => {
-        // Mock 데이터 직접 업데이트 (Redux action)
-        dispatch(
-            updateMockDeliveryAddress({
-                receiverName: 'Mock에서 변경된 이름',
-                addressName: 'Mock 주소',
-            }),
-        )
-    }
-
     const handleMemoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = event.target.value
         setSelectedMemoOption(selectedValue)
 
-        // 직접 입력하기를 선택했을 때 커스텀 텍스트 초기화
+        // 직접 입력하기를 선택했을 때 커스텀 텍스트와 재사용 체크박스 초기화
         if (selectedValue === 'custom') {
             setCustomMemoText('')
+            setReuseCustomMemo(false)
         }
     }
 
@@ -105,6 +97,10 @@ export const OrderSheetExampleWithRedux = () => {
         const text = event.target.value
         setCustomMemoText(text)
         // DB 업데이트 제거 - 클라이언트 상태로만 관리
+    }
+
+    const handleReuseMemoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setReuseCustomMemo(event.target.checked)
     }
 
     const handleClearErrors = () => {
@@ -238,7 +234,25 @@ export const OrderSheetExampleWithRedux = () => {
                             <p>전화번호1: {deliveryAddress.telNo1}</p>
                             <p>전화번호2: {deliveryAddress.telNo2}</p>
                             <p>주소: {deliveryAddress.address}</p>
-                            <p>배송 메모: {deliveryAddress.memo.memo || '선택된 메모 없음'}</p>
+                            <div
+                                style={{
+                                    marginTop: '15px',
+                                    padding: '10px',
+                                    backgroundColor: '#f8f9fa',
+                                    borderRadius: '4px',
+                                    border: '1px solid #dee2e6',
+                                }}
+                            >
+                                <strong>🚚 배송 메모 (클라이언트 선택)</strong>
+                                <p style={{margin: '5px 0', color: '#495057'}}>
+                                    <strong>선택된 메모:</strong> {getCurrentSelectedMemo().memo || '선택된 메모 없음'}
+                                </p>
+                                <p style={{margin: '5px 0', fontSize: '12px', color: '#6c757d'}}>
+                                    타입: {getCurrentSelectedMemo().type} | 재사용:{' '}
+                                    {getCurrentSelectedMemo().reuseMemo ? '예' : '아니오'} | 템플릿:{' '}
+                                    {getCurrentSelectedMemo().template ? '예' : '아니오'}
+                                </p>
+                            </div>
                         </div>
                     )}
 
@@ -278,26 +292,6 @@ export const OrderSheetExampleWithRedux = () => {
 
                 {/* Mock 데이터 */}
                 <div style={{flex: 1, border: '1px solid #ccc', padding: '10px'}}>
-                    <h2>Mock 데이터 (Redux Store)</h2>
-                    <p>
-                        수신자:{' '}
-                        {
-                            mockData?.result?.subscriptionViewResult?.deliveryAddressBook?.defaultDeliveryAddress
-                                ?.receiverName
-                        }
-                    </p>
-                    <p>
-                        주소명:{' '}
-                        {
-                            mockData?.result?.subscriptionViewResult?.deliveryAddressBook?.defaultDeliveryAddress
-                                ?.addressName
-                        }
-                    </p>
-                    <p>
-                        전화번호:{' '}
-                        {mockData?.result?.subscriptionViewResult?.deliveryAddressBook?.defaultDeliveryAddress?.telNo1}
-                    </p>
-
                     <div style={{marginTop: '20px', border: '1px solid #ddd', padding: '15px', borderRadius: '5px'}}>
                         <h3>배송 메모 선택</h3>
 
@@ -326,6 +320,19 @@ export const OrderSheetExampleWithRedux = () => {
                                     </option>
                                 ))}
                             </select>
+                        </div>
+                        {/* 재사용 체크박스 */}
+                        <div style={{marginTop: '10px', display: 'flex', alignItems: 'center'}}>
+                            <input
+                                id="reuse-memo"
+                                type="checkbox"
+                                checked={reuseCustomMemo}
+                                onChange={handleReuseMemoChange}
+                                style={{marginRight: '8px'}}
+                            />
+                            <label htmlFor="reuse-memo" style={{fontSize: '14px', color: '#495057', cursor: 'pointer'}}>
+                                📝 다음에도 사용할게요
+                            </label>
                         </div>
 
                         {selectedMemoOption === 'custom' && (
@@ -368,26 +375,6 @@ export const OrderSheetExampleWithRedux = () => {
                             <small style={{color: '#666'}}>타입: {getCurrentSelectedMemo().type}</small>
                         </div>
                     </div>
-
-                    <button onClick={handleUpdateMockData} style={{marginTop: '10px', marginRight: '10px'}}>
-                        Mock 데이터 직접 업데이트
-                    </button>
-                    <button
-                        onClick={handleSubmit}
-                        style={{
-                            marginTop: '10px',
-                            backgroundColor: '#007bff',
-                            color: 'white',
-                            border: 'none',
-                            padding: '10px 20px',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '14px',
-                            fontWeight: 'bold',
-                        }}
-                    >
-                        주문 제출
-                    </button>
                 </div>
             </div>
 
