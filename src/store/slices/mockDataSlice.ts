@@ -23,6 +23,8 @@ const mockDataSlice = createSlice({
         updateMockDeliveryAddress: (state, action: PayloadAction<Partial<DeliveryAddress>>) => {
             const address =
                 state.orderSheetData.result.subscriptionViewResult.deliveryAddressBook.defaultDeliveryAddress
+            const memos =
+                state.orderSheetData.result.subscriptionViewResult.deliveryAddressBook.recentUsedDeliveryMemosReuse
 
             if (action.payload.receiverName) {
                 address.receiverName = action.payload.receiverName
@@ -45,6 +47,25 @@ const mockDataSlice = createSlice({
                     address.detailAddress = addressParts.slice(detailIndex).join(' ')
                 } else {
                     address.baseAddress = action.payload.address
+                }
+            }
+            if (action.payload.memo) {
+                // 첫 번째 메모 업데이트
+                if (memos.length > 0) {
+                    memos[0] = {
+                        memo: action.payload.memo.memo,
+                        memoSeq: action.payload.memo.memoSeq,
+                        reuseMemo: action.payload.memo.reuseMemo,
+                        template: action.payload.memo.template,
+                    }
+                } else {
+                    // 메모 배열이 비어있으면 새로 추가
+                    memos.push({
+                        memo: action.payload.memo.memo,
+                        memoSeq: action.payload.memo.memoSeq,
+                        reuseMemo: action.payload.memo.reuseMemo,
+                        template: action.payload.memo.template,
+                    })
                 }
             }
         },

@@ -1,5 +1,6 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 
+import {dbWithRedux} from '../mocks/dbWithRedux'
 import {useAppDispatch, useAppSelector} from '../store/hooks'
 import {selectMockOrderSheetData, updateMockDeliveryAddress} from '../store/slices/mockDataSlice'
 import {
@@ -12,8 +13,15 @@ import {
     updateDeliveryAddress,
 } from '../store/slices/orderSheetSlice'
 
+import type {DeliveryMemoOption} from '../types/order'
+
 export const OrderSheetExampleWithRedux = () => {
     const dispatch = useAppDispatch()
+
+    // 배송 메모 관련 상태
+    const [selectedMemoOption, setSelectedMemoOption] = useState<string>('default')
+    const [customMemoText, setCustomMemoText] = useState<string>('')
+    const [memoOptions, setMemoOptions] = useState<DeliveryMemoOption[]>([])
 
     // API 데이터 (Redux thunk 결과)
     const {subscriptionDate, deliveryAddress, orderProduct, orderPayMethod, pointsReward, loading, error} =
@@ -29,6 +37,10 @@ export const OrderSheetExampleWithRedux = () => {
         dispatch(fetchOrderProduct())
         dispatch(fetchOrderPayMethod())
         dispatch(fetchPointsReward())
+
+        // 배송 메모 옵션 로드
+        const options = dbWithRedux.getDeliveryMemoOptions()
+        setMemoOptions(options)
     }, [dispatch])
 
     const handleUpdateDeliveryAddress = () => {
@@ -49,6 +61,35 @@ export const OrderSheetExampleWithRedux = () => {
                 addressName: 'Mock 주소',
             }),
         )
+    }
+
+    const handleMemoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedValue = event.target.value
+        setSelectedMemoOption(selectedValue)
+
+        // 옵션에 따른 처리
+        const selectedOption = memoOptions.find((option) => option.id === selectedValue)
+        if (!selectedOption) {
+            return
+        }
+
+        if (selectedOption.type === 'template') {
+            // 템플릿 메모 선택
+            dbWithRedux.updateDeliveryMemo(selectedOption.value, 'template')
+        } else if (selectedOption.type === 'none') {
+            // 선택 안함
+            dbWithRedux.updateDeliveryMemo('', 'none')
+        } else if (selectedOption.type === 'custom') {
+            // 직접 입력하기 - 텍스트 필드 활성화만
+            setCustomMemoText('')
+        }
+    }
+
+    const handleCustomMemoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const text = event.target.value
+        setCustomMemoText(text)
+        // 실시간으로 업데이트하지 않고 blur나 버튼 클릭 시 업데이트하도록 변경 가능
+        dbWithRedux.updateDeliveryMemo(text, 'custom')
     }
 
     const handleClearErrors = () => {
@@ -106,6 +147,7 @@ export const OrderSheetExampleWithRedux = () => {
                             <p>전화번호1: {deliveryAddress.telNo1}</p>
                             <p>전화번호2: {deliveryAddress.telNo2}</p>
                             <p>주소: {deliveryAddress.address}</p>
+                            <p>배송 메모: {deliveryAddress.memo.memo || '선택된 메모 없음'}</p>
                         </div>
                     )}
 
@@ -167,7 +209,80 @@ export const OrderSheetExampleWithRedux = () => {
                         {mockData?.result?.subscriptionViewResult?.deliveryAddressBook?.defaultDeliveryAddress?.telNo1}
                     </p>
 
-                    <button onClick={handleUpdateMockData}>Mock 데이터 직접 업데이트</button>
+                    <div style={{marginTop: '20px', border: '1px solid #ddd', padding: '15px', borderRadius: '5px'}}>
+                        <h3>배송 메모 선택</h3>
+
+                        <div style={{marginBottom: '10px'}}>
+                            <label
+                                htmlFor="memo-select"
+                                style={{display: 'block', marginBottom: '5px', fontWeight: 'bold'}}
+                            >
+                                배송 메모:
+                            </label>
+                            <select
+                                id="memo-select"
+                                value={selectedMemoOption}
+                                onChange={handleMemoChange}
+                                style={{
+                                    width: '100%',
+                                    padding: '8px',
+                                    border: '1px solid #ccc',
+                                    borderRadius: '4px',
+                                    fontSize: '14px',
+                                }}
+                            >
+                                {memoOptions.map((option) => (
+                                    <option key={option.id} value={option.id}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {selectedMemoOption === 'custom' && (
+                            <div style={{marginTop: '10px'}}>
+                                <label
+                                    htmlFor="custom-memo"
+                                    style={{display: 'block', marginBottom: '5px', fontWeight: 'bold'}}
+                                >
+                                    직접 입력:
+                                </label>
+                                <input
+                                    id="custom-memo"
+                                    type="text"
+                                    value={customMemoText}
+                                    onChange={handleCustomMemoChange}
+                                    placeholder="배송 메모를 직접 입력해주세요"
+                                    style={{
+                                        width: '100%',
+                                        padding: '8px',
+                                        border: '1px solid #ccc',
+                                        borderRadius: '4px',
+                                        fontSize: '14px',
+                                    }}
+                                />
+                            </div>
+                        )}
+
+                        <div
+                            style={{
+                                marginTop: '10px',
+                                padding: '10px',
+                                backgroundColor: '#f5f5f5',
+                                borderRadius: '4px',
+                            }}
+                        >
+                            <strong>현재 선택된 메모:</strong>
+                            <p style={{margin: '5px 0', fontStyle: 'italic'}}>
+                                {mockData?.result?.subscriptionViewResult?.deliveryAddressBook
+                                    ?.recentUsedDeliveryMemosReuse?.[0]?.memo || '메모 없음'}
+                            </p>
+                        </div>
+                    </div>
+
+                    <button onClick={handleUpdateMockData} style={{marginTop: '10px'}}>
+                        Mock 데이터 직접 업데이트
+                    </button>
                 </div>
             </div>
         </div>

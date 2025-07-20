@@ -3,6 +3,8 @@ import {selectMockOrderSheetData, updateMockDeliveryAddress} from '../store/slic
 
 import type {
     DeliveryAddress,
+    DeliveryMemo,
+    DeliveryMemoOption,
     OrderPayMethod,
     OrderProduct,
     Period,
@@ -82,6 +84,80 @@ export const dbWithRedux = {
             cashReceiptApply: paymentMethods.cashReceiptApply,
             cashReceiptInfo: paymentMethods.cashReceipt.issueNumber,
         }
+    },
+
+    // 배송 메모 옵션 목록 조회 (기본 메시지 + API 데이터 + 추가 옵션)
+    getDeliveryMemoOptions: (): DeliveryMemoOption[] => {
+        const orderSheetData = selectMockOrderSheetData(store.getState())
+        const memos = orderSheetData.result.subscriptionViewResult.deliveryAddressBook.recentUsedDeliveryMemosReuse
+
+        const options: DeliveryMemoOption[] = [
+            // 기본 선택 메시지
+            {
+                id: 'default',
+                label: '배송 메모를 선택해주세요',
+                value: '',
+                type: 'default',
+            },
+            // 선택 안함 옵션
+            {
+                id: 'none',
+                label: '선택 안함',
+                value: '',
+                type: 'none',
+            },
+            // API에서 받아온 배송 메모들
+            ...memos.map((memo, index) => ({
+                id: `memo-${index}`,
+                label: memo.memo,
+                value: memo.memo,
+                type: 'template' as const,
+            })),
+            // 직접 입력하기 옵션
+            {
+                id: 'custom',
+                label: '직접 입력하기',
+                value: '',
+                type: 'custom',
+            },
+        ]
+
+        return options
+    },
+
+    // 현재 선택된 배송 메모 조회
+    getSelectedDeliveryMemo: (): DeliveryMemo => {
+        const orderSheetData = selectMockOrderSheetData(store.getState())
+        const memos = orderSheetData.result.subscriptionViewResult.deliveryAddressBook.recentUsedDeliveryMemosReuse
+        const firstMemo = memos[0] || {memo: '', memoSeq: 0, reuseMemo: false, template: false}
+
+        return {
+            memo: firstMemo.memo,
+            memoSeq: firstMemo.memoSeq,
+            reuseMemo: firstMemo.reuseMemo,
+            template: firstMemo.template,
+        }
+    },
+
+    // 배송 메모 업데이트
+    updateDeliveryMemo: (memo: string, type: 'template' | 'custom' | 'none' = 'custom'): DeliveryMemo => {
+        const newMemo: DeliveryMemo = {
+            memo,
+            memoSeq: type === 'template' ? 1 : 0,
+            reuseMemo: type === 'template',
+            template: type === 'template',
+        }
+
+        // 배송 주소와 함께 메모도 업데이트
+        const currentAddress = dbWithRedux.getDeliveryAddress()
+        store.dispatch(
+            updateMockDeliveryAddress({
+                ...currentAddress,
+                memo: newMemo,
+            }),
+        )
+
+        return newMemo
     },
 
     // 포인트 리워드 정보 조회

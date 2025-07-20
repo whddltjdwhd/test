@@ -17,11 +17,18 @@ export interface SubscriptionDate {
     periodCount: number
 }
 
-interface DeliveryMemo {
+export interface DeliveryMemo {
     memo: string
     memoSeq: number
     reuseMemo: boolean
     template: boolean
+}
+
+export interface DeliveryMemoOption {
+    id: string
+    label: string
+    value: string
+    type: 'default' | 'none' | 'custom' | 'template'
 }
 export interface DeliveryAddress {
     receiverName: string
