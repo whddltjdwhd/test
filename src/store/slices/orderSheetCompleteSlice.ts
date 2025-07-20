@@ -20,11 +20,11 @@ export const fetchOrderSheetComplete = createAsyncThunk(
                 deviceType: params.deviceType,
                 osType: params.osType,
                 isMobileDisplay: params.isMobileDisplay.toString(),
-                ...(params.backUrl && { backUrl: params.backUrl }),
+                ...(params.backUrl && {backUrl: params.backUrl}),
             })
 
             const response = await apiClient.get<OrderSheetCompleteResponse>(
-                `${API_ENDPOINTS.ORDER_SHEET.COMPLETE}?${queryParams.toString()}`
+                `${API_ENDPOINTS.ORDER_SHEET.COMPLETE}?${queryParams.toString()}`,
             )
             const endTime = performance.now()
             // eslint-disable-next-line no-console

@@ -21,7 +21,7 @@ export const mockDB = {
     initializeOrderSheet: (params: OrderSheetParams) => {
         // eslint-disable-next-line no-console
         console.log(`📋 주문서 초기화 - ID: ${params.orderSheetId}, Device: ${params.deviceType}`)
-        
+
         // 실제 orderSheetData를 파라미터 값으로 업데이트
         orderSheetData = {
             ...originalData,
@@ -31,10 +31,10 @@ export const mockDB = {
                     ...originalData.result.subscriptionViewResult,
                     orderSheetId: params.orderSheetId, // 동적으로 설정
                     backUrl: params.backUrl || originalData.result.subscriptionViewResult.backUrl,
-                }
-            }
+                },
+            },
         }
-        
+
         return orderSheetData
     },
 

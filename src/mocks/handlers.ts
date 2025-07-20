@@ -13,9 +13,13 @@ export const handlers = [
         const url = new URL(request.url)
         const params: OrderSheetParams = {
             orderSheetId: url.searchParams.get('orderSheetId') || DEFAULT_ORDER_SHEET_PARAMS.orderSheetId,
-            deviceType: (url.searchParams.get('deviceType') as 'PC' | 'MOBILE') || DEFAULT_ORDER_SHEET_PARAMS.deviceType,
-            osType: (url.searchParams.get('osType') as 'WINDOWS' | 'MAC' | 'ANDROID' | 'IOS') || DEFAULT_ORDER_SHEET_PARAMS.osType,
-            isMobileDisplay: url.searchParams.get('isMobileDisplay') === 'true' || DEFAULT_ORDER_SHEET_PARAMS.isMobileDisplay,
+            deviceType:
+                (url.searchParams.get('deviceType') as 'PC' | 'MOBILE') || DEFAULT_ORDER_SHEET_PARAMS.deviceType,
+            osType:
+                (url.searchParams.get('osType') as 'WINDOWS' | 'MAC' | 'ANDROID' | 'IOS') ||
+                DEFAULT_ORDER_SHEET_PARAMS.osType,
+            isMobileDisplay:
+                url.searchParams.get('isMobileDisplay') === 'true' || DEFAULT_ORDER_SHEET_PARAMS.isMobileDisplay,
             backUrl: url.searchParams.get('backUrl') || DEFAULT_ORDER_SHEET_PARAMS.backUrl,
         }
 
