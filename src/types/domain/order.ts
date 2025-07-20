@@ -36,7 +36,7 @@ export interface DeliveryAddress {
     telNo1: string
     telNo2: string
     address: string
-    memo: DeliveryMemo
+    memos: DeliveryMemo[]
 }
 
 interface DeliveryPolicy {

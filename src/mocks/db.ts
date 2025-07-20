@@ -28,17 +28,11 @@ export const mockDB = {
     getDeliveryAddress: (): DeliveryAddress => {
         const address = orderSheetData.result.subscriptionViewResult.deliveryAddressBook.defaultDeliveryAddress
         const memos = orderSheetData.result.subscriptionViewResult.deliveryAddressBook.recentUsedDeliveryMemosReuse
-        const firstMemo = memos[0] || {memo: '', memoSeq: 0, reuseMemo: false, template: false}
 
         return {
             ...address,
             address: `${address.baseAddress} ${address.detailAddress}`,
-            memo: {
-                memo: firstMemo.memo,
-                memoSeq: firstMemo.memoSeq,
-                reuseMemo: firstMemo.reuseMemo,
-                template: firstMemo.template,
-            },
+            memos,
         }
     },
 
