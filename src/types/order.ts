@@ -60,3 +60,25 @@ export interface PointsReward {
     sellerReward: number
     reviewReward: number
 }
+
+export interface OrderSheetState {
+    subscriptionDate: SubscriptionDate | null
+    deliveryAddress: DeliveryAddress | null
+    orderProduct: OrderProduct | null
+    orderPayMethod: OrderPayMethod | null
+    pointsReward: PointsReward | null
+    loading: {
+        subscriptionDate: boolean
+        deliveryAddress: boolean
+        orderProduct: boolean
+        orderPayMethod: boolean
+        pointsReward: boolean
+    }
+    error: {
+        subscriptionDate: string | null
+        deliveryAddress: string | null
+        orderProduct: string | null
+        orderPayMethod: string | null
+        pointsReward: string | null
+    }
+}
