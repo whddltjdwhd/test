@@ -3,13 +3,10 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {API_ENDPOINTS} from '../../constants/api'
 import {apiClient} from '../../lib/axios'
 
-import type {
-    DeliveryAddress,
-    OrderPayMethod,
-    OrderProduct,
-    PointsReward,
-    SubscriptionDate,
-} from '../../types/domain/order'
+import type {DeliveryAddress} from '../../types/domain/delivery'
+import type {OrderPayMethod, PointsReward} from '../../types/domain/payment'
+import type {OrderProduct} from '../../types/domain/product'
+import type {SubscriptionDate} from '../../types/domain/subscription'
 import type {OrderSheetState} from '../../types/store/orderSheet'
 import type {AxiosError} from 'axios'
 
