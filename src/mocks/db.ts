@@ -2,15 +2,10 @@
 import originalData from './data/orderSheetData.json'
 
 import type {OrderSheetParams} from '../types/api/params'
-import type {
-    DeliveryAddress,
-    DeliveryMemoOption,
-    OrderPayMethod,
-    OrderProduct,
-    Period,
-    PointsReward,
-    SubscriptionDate,
-} from '../types/domain/order'
+import type {DeliveryAddress, DeliveryMemoOption} from '../types/domain/delivery'
+import type {OrderPayMethod, PointsReward} from '../types/domain/payment'
+import type {OrderProduct} from '../types/domain/product'
+import type {Period, SubscriptionDate} from '../types/domain/subscription'
 
 // 동적으로 설정되는 주문서 데이터
 let orderSheetData = originalData

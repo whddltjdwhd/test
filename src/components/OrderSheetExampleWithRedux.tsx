@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 
+import orderSheetData from '../mocks/data/orderSheetData.json'
 import {useAppDispatch, useAppSelector} from '../store/hooks'
-import {selectMockOrderSheetData} from '../store/slices/mockDataSlice'
 import {
     clearErrors,
     fetchDeliveryAddress,
@@ -35,7 +35,6 @@ export const OrderSheetExampleWithRedux = () => {
     } = useAppSelector((state) => state.orderSheet)
 
     // Mock 데이터 (Redux store에서 직접)
-    const mockData = useAppSelector(selectMockOrderSheetData)
 
     // 현재 선택된 메모를 반환하는 함수
     const getCurrentSelectedMemo = () => {
@@ -108,7 +107,6 @@ export const OrderSheetExampleWithRedux = () => {
 
     const handleSubmit = () => {
         // 현재 상태에서 SubscriptionInfo 형식으로 데이터 생성
-        const orderSheetData = mockData
         const currentMemo = getCurrentSelectedMemo() // 클라이언트 상태에서 메모 가져오기
 
         if (!deliveryAddress) {

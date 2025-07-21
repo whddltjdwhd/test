@@ -1,11 +1,9 @@
-import type {
-    DeliveryAddress,
-    DeliveryMemoOption,
-    OrderPayMethod,
-    OrderProduct,
-    PointsReward,
-    SubscriptionDate,
-} from '../domain/order'
+// 개별 API 방식의 Redux 상태 타입
+
+import type {DeliveryAddress, DeliveryMemoOption} from '../domain/delivery'
+import type {OrderPayMethod, PointsReward} from '../domain/payment'
+import type {OrderProduct} from '../domain/product'
+import type {SubscriptionDate} from '../domain/subscription'
 
 export interface OrderSheetState {
     subscriptionDate: SubscriptionDate | null

@@ -10,7 +10,7 @@ import type {
     PointsReward,
     SubscriptionDate,
 } from '../../types/domain/order'
-import type {OrderSheetState} from '../../types/ui/orderSheet'
+import type {OrderSheetState} from '../../types/store/orderSheet'
 import type {AxiosError} from 'axios'
 
 // 구독 날짜 정보 조회 thunk

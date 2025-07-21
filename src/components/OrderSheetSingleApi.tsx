@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react'
 
+import orderSheetData from '../mocks/data/orderSheetData.json'
 import {useAppDispatch, useAppSelector} from '../store/hooks'
-import {selectMockOrderSheetData} from '../store/slices/mockDataSlice'
-import {clearError, fetchOrderSheetComplete} from '../store/slices/orderSheetCompleteSlice'
+import {fetchOrderSheetComplete} from '../store/slices/orderSheetCompleteSlice'
 import {DEFAULT_ORDER_SHEET_PARAMS} from '../types/api/params'
 
 import type {OrderSheetParams} from '../types/api/params'
@@ -21,9 +21,6 @@ export const OrderSheetSingleApi = () => {
 
     // 단일 API 데이터
     const {data, loading, error} = useAppSelector((state) => state.orderSheetComplete)
-
-    // Mock 데이터 (주문서 기본 정보용)
-    const mockData = useAppSelector(selectMockOrderSheetData)
 
     // 현재 선택된 메모를 반환하는 함수
     const getCurrentSelectedMemo = () => {
@@ -94,10 +91,6 @@ export const OrderSheetSingleApi = () => {
         setReuseCustomMemo(event.target.checked)
     }
 
-    const handleClearError = () => {
-        dispatch(clearError())
-    }
-
     const handleRefreshWithNewParams = () => {
         // orderSheetId를 새로 생성해서 테스트
         const newParams: OrderSheetParams = {
@@ -116,7 +109,6 @@ export const OrderSheetSingleApi = () => {
         }
 
         const currentMemo = getCurrentSelectedMemo()
-        const orderSheetData = mockData
 
         const subscriptionInfo: SubscriptionInfo = {
             deviceType: orderSheetParams.deviceType,
@@ -194,7 +186,6 @@ export const OrderSheetSingleApi = () => {
         return (
             <div>
                 <div>❌ Error occurred: {error}</div>
-                <button onClick={handleClearError}>Clear Error</button>
                 <button onClick={() => dispatch(fetchOrderSheetComplete(orderSheetParams))}>Retry</button>
             </div>
         )

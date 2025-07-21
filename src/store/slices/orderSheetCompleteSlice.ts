@@ -5,7 +5,8 @@ import {apiClient} from '../../lib/axios'
 import {DEFAULT_ORDER_SHEET_PARAMS} from '../../types/api/params'
 
 import type {OrderSheetParams} from '../../types/api/params'
-import type {OrderSheetCompleteResponse, OrderSheetState} from '../../types/ui/orderSheetComplete'
+import type {OrderSheetCompleteResponse} from '../../types/api/response'
+import type {OrderSheetCompleteState} from '../../types/store/orderSheetComplete'
 import type {AxiosError} from 'axios'
 
 // 단일 API 호출로 모든 주문서 데이터 조회
@@ -37,7 +38,7 @@ export const fetchOrderSheetComplete = createAsyncThunk(
     },
 )
 
-const initialState: OrderSheetState = {
+const initialState: OrderSheetCompleteState = {
     data: null,
     loading: false,
     error: null,
@@ -47,10 +48,7 @@ const orderSheetCompleteSlice = createSlice({
     name: 'orderSheetComplete',
     initialState,
     reducers: {
-        clearError: (state) => {
-            state.error = null
-        },
-        resetOrderSheet: () => initialState,
+        // reducers는 필수 속성이므로 빈 객체로 유지
     },
     extraReducers: (builder) => {
         builder
@@ -69,5 +67,5 @@ const orderSheetCompleteSlice = createSlice({
     },
 })
 
-export const {clearError, resetOrderSheet} = orderSheetCompleteSlice.actions
+// reducer에서 actions가 없으므로 별도의 export 없음
 export default orderSheetCompleteSlice.reducer
