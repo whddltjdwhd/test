@@ -1,15 +1,32 @@
 import {useState} from 'react'
 
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+
+import {HomePage} from './components/HomePage'
 import {OrderSheetExampleWithRedux} from './components/OrderSheetExampleWithRedux'
 import {OrderSheetSingleApi} from './components/OrderSheetSingleApi'
+import {PaymentMethodPage} from './components/PaymentMethodPage'
 
 function App() {
-    const [count, setCount] = useState(0)
+    return (
+        <Router>
+            <div style={{minHeight: '100vh', backgroundColor: '#f8f9fa'}}>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/order-sheet" element={<OrderSheetPageWithToggle />} />
+                    <Route path="/paymentMethod/subscription" element={<PaymentMethodPage />} />
+                </Routes>
+            </div>
+        </Router>
+    )
+}
+
+// 주문서 페이지 (기존 로직 유지)
+function OrderSheetPageWithToggle() {
     const [currentView, setCurrentView] = useState<'multiple' | 'single'>('single')
 
     return (
-        <>
-            <div />
+        <div style={{padding: '20px'}}>
             <h1>네이버페이 주문서 예시</h1>
 
             {/* API 방식 선택 */}
@@ -46,16 +63,7 @@ function App() {
 
             {/* 선택된 컴포넌트 렌더링 */}
             {currentView === 'multiple' ? <OrderSheetExampleWithRedux /> : <OrderSheetSingleApi />}
-
-            <div className="card">
-                <button onClick={() => setCount((c) => c + 1)}>count is {count}</button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-
-            <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-        </>
+        </div>
     )
 }
 

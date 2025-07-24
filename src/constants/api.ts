@@ -15,6 +15,9 @@ export const API_ENDPOINTS = {
         POINTS_REWARD: '/orderSheet/points/reward',
         DELIVERY_MEMO_OPTIONS: '/orderSheet/delivery/memo/options',
     },
+    PAYMENT_METHOD: {
+        SUBSCRIPTION: '/paymentMethod/subscription',
+    },
 } as const
 
 // 완전한 URL을 생성하는 헬퍼 함수

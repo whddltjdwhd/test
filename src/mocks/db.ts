@@ -8,7 +8,33 @@ import type {OrderProduct} from '../types/domain/product'
 import type {Period, SubscriptionDate} from '../types/domain/subscription'
 
 // 동적으로 설정되는 주문서 데이터
-let orderSheetData = originalData
+// localStorage에서 orderSheetData 불러오기
+const getStoredOrderSheetData = () => {
+    try {
+        const stored = localStorage.getItem('orderSheetData')
+        if (stored) {
+            const storedData = JSON.parse(stored)
+            // eslint-disable-next-line no-console
+            console.log('📦 localStorage에서 데이터 로드됨')
+            return storedData
+        }
+    } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn('localStorage 읽기 실패:', error)
+    }
+    return null
+}
+
+let orderSheetData = getStoredOrderSheetData()
+
+const saveOrderSheetData = (data: typeof originalData) => {
+    try {
+        localStorage.setItem('orderSheetData', JSON.stringify(data))
+    } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn('localStorage 저장 실패:', error)
+    }
+}
 
 // 순수한 서버 DB 모킹 - Redux 의존성 제거
 export const mockDB = {
@@ -29,6 +55,9 @@ export const mockDB = {
                 },
             },
         }
+
+        // localStorage에 저장
+        saveOrderSheetData(orderSheetData)
 
         return orderSheetData
     },
@@ -77,9 +106,15 @@ export const mockDB = {
 
     // 결제 방법 정보 조회
     getOrderPayMethod: (): OrderPayMethod => {
+        const firstPayment =
+            orderSheetData.result.paymentMethodsResult.firstPayMethod.payMethodName +
+            orderSheetData.result.paymentMethodsResult.firstPayMethod.payMethodDisplayNumber
+        const secondPayment =
+            orderSheetData.result.paymentMethodsResult.secondPayMethod.payMethodName +
+            orderSheetData.result.paymentMethodsResult.secondPayMethod.payMethodDisplayNumber
         return {
             usePointAll: false,
-            payMethodNames: ['신용카드', '계좌이체'],
+            payMethodNames: [firstPayment, secondPayment],
             cashReceiptApply: false,
             cashReceiptInfo: '',
         }
@@ -110,6 +145,80 @@ export const mockDB = {
 
     // 전체 주문서 데이터 조회 (필요시)
     getFullOrderSheetData: () => {
+        return orderSheetData
+    },
+
+    // 결제 수단 정보 업데이트
+    updatePaymentMethod: (paymentInfo: {
+        primaryPaymentType: string
+        secondaryPaymentType: string
+        selectedPrimaryCard?: string | null
+        selectedSecondaryCard?: string | null
+        usePointAll: boolean
+    }) => {
+        // 결제 수단 정보를 orderSheetData에 반영
+        const {primaryPaymentType, secondaryPaymentType, selectedPrimaryCard, selectedSecondaryCard, usePointAll} =
+            paymentInfo
+
+        // 1순위 결제수단 설정
+        let firstPayMethodName = ''
+        let firstPayMethodDisplayNumber = ''
+
+        if (primaryPaymentType === 'CARD' && selectedPrimaryCard) {
+            firstPayMethodName = '카드'
+            firstPayMethodDisplayNumber = ` (${selectedPrimaryCard.slice(-4)})`
+        } else if (primaryPaymentType === 'PAYMONEY') {
+            firstPayMethodName = '페이머니'
+            firstPayMethodDisplayNumber = ''
+        }
+
+        // 2순위 결제수단 설정
+        let secondPayMethodName = ''
+        let secondPayMethodDisplayNumber = ''
+
+        if (secondaryPaymentType === 'CARD' && selectedSecondaryCard) {
+            secondPayMethodName = '카드'
+            secondPayMethodDisplayNumber = ` (${selectedSecondaryCard.slice(-4)})`
+        } else if (secondaryPaymentType === 'PAYMONEY') {
+            secondPayMethodName = '페이머니'
+            secondPayMethodDisplayNumber = ''
+        } else {
+            secondPayMethodName = '선택안함'
+            secondPayMethodDisplayNumber = ''
+        }
+
+        // orderSheetData 업데이트
+        orderSheetData = {
+            ...orderSheetData,
+            result: {
+                ...orderSheetData.result,
+                paymentMethodsResult: {
+                    ...orderSheetData.result.paymentMethodsResult,
+                    firstPayMethod: {
+                        ...orderSheetData.result.paymentMethodsResult.firstPayMethod,
+                        payMethodName: firstPayMethodName,
+                        payMethodDisplayNumber: firstPayMethodDisplayNumber,
+                    },
+                    secondPayMethod: {
+                        ...orderSheetData.result.paymentMethodsResult.secondPayMethod,
+                        payMethodName: secondPayMethodName,
+                        payMethodDisplayNumber: secondPayMethodDisplayNumber,
+                    },
+                    usePointAll,
+                },
+            },
+        }
+
+        // eslint-disable-next-line no-console
+        console.log('💳 결제수단 업데이트됨:', {
+            first: firstPayMethodName + firstPayMethodDisplayNumber,
+            second: secondPayMethodName + secondPayMethodDisplayNumber,
+            usePointAll,
+        })
+
+        // localStorage에 저장
+        saveOrderSheetData(orderSheetData)
+
         return orderSheetData
     },
 }

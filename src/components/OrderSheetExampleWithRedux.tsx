@@ -1,5 +1,7 @@
 import {useEffect, useState} from 'react'
 
+import {useNavigate} from 'react-router-dom'
+
 import orderSheetData from '../mocks/data/orderSheetData.json'
 import {useAppDispatch, useAppSelector} from '../store/hooks'
 import {
@@ -16,6 +18,7 @@ import type {SubscriptionInfo} from '../types/api/request'
 
 export const OrderSheetExampleWithRedux = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
     // 배송 메모 관련 상태 (클라이언트에서만 관리)
     const [selectedMemoOption, setSelectedMemoOption] = useState<string>('default')
@@ -269,13 +272,82 @@ export const OrderSheetExampleWithRedux = () => {
                         </div>
                     )}
 
-                    <h3>결제 방법</h3>
+                    <h3 style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                        💳 결제 방법
+                        <button
+                            onClick={() => navigate('/paymentMethod/subscription')}
+                            style={{
+                                padding: '8px 16px',
+                                backgroundColor: '#007bff',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                                fontSize: '14px',
+                                fontWeight: 'normal',
+                            }}
+                        >
+                            변경
+                        </button>
+                    </h3>
                     {orderPayMethod && (
-                        <div>
-                            <p>포인트 전체 사용: {orderPayMethod.usePointAll ? '예' : '아니오'}</p>
-                            <p>결제 방법들: {orderPayMethod.payMethodNames.join(', ')}</p>
-                            <p>현금영수증 적용: {orderPayMethod.cashReceiptApply ? '예' : '아니오'}</p>
-                            <p>현금영수증 정보: {orderPayMethod.cashReceiptInfo}</p>
+                        <div
+                            style={{
+                                padding: '15px',
+                                backgroundColor: '#f8f9fa',
+                                borderRadius: '8px',
+                                border: '2px solid #007bff',
+                                marginBottom: '15px',
+                            }}
+                        >
+                            <div style={{marginBottom: '10px'}}>
+                                <strong style={{color: '#007bff'}}>🥇 1순위:</strong>
+                                <span
+                                    style={{
+                                        marginLeft: '10px',
+                                        padding: '4px 8px',
+                                        backgroundColor: '#007bff',
+                                        color: 'white',
+                                        borderRadius: '4px',
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                    }}
+                                >
+                                    {orderPayMethod.payMethodNames[0] || '미설정'}
+                                </span>
+                            </div>
+                            <div style={{marginBottom: '10px'}}>
+                                <strong style={{color: '#28a745'}}>🥈 2순위:</strong>
+                                <span
+                                    style={{
+                                        marginLeft: '10px',
+                                        padding: '4px 8px',
+                                        backgroundColor: '#28a745',
+                                        color: 'white',
+                                        borderRadius: '4px',
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                    }}
+                                >
+                                    {orderPayMethod.payMethodNames[1] || '선택안함'}
+                                </span>
+                            </div>
+                            <div>
+                                <strong style={{color: '#6f42c1'}}>💰 포인트 전체 사용:</strong>
+                                <span
+                                    style={{
+                                        marginLeft: '10px',
+                                        padding: '4px 8px',
+                                        backgroundColor: orderPayMethod.usePointAll ? '#28a745' : '#6c757d',
+                                        color: 'white',
+                                        borderRadius: '4px',
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                    }}
+                                >
+                                    {orderPayMethod.usePointAll ? '✅ 사용' : '❌ 미사용'}
+                                </span>
+                            </div>
                         </div>
                     )}
 

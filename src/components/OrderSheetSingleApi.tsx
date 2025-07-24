@@ -1,5 +1,7 @@
 import {useEffect, useState} from 'react'
 
+import {useNavigate} from 'react-router-dom'
+
 import orderSheetData from '../mocks/data/orderSheetData.json'
 import {useAppDispatch, useAppSelector} from '../store/hooks'
 import {fetchOrderSheetComplete} from '../store/slices/orderSheetCompleteSlice'
@@ -10,6 +12,7 @@ import type {SubscriptionInfo} from '../types/api/request'
 
 export const OrderSheetSingleApi = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
     // 주문서 파라미터 상태 (사용자가 변경 가능)
     const [orderSheetParams, setOrderSheetParams] = useState<OrderSheetParams>(DEFAULT_ORDER_SHEET_PARAMS)
@@ -69,6 +72,16 @@ export const OrderSheetSingleApi = () => {
     useEffect(() => {
         // 컴포넌트 마운트 시 파라미터와 함께 단일 API로 모든 데이터 fetch
         dispatch(fetchOrderSheetComplete(orderSheetParams))
+    }, [dispatch, orderSheetParams])
+
+    // 페이지가 포커스될 때마다 데이터 새로고침
+    useEffect(() => {
+        const handleFocus = () => {
+            dispatch(fetchOrderSheetComplete(orderSheetParams))
+        }
+
+        window.addEventListener('focus', handleFocus)
+        return () => window.removeEventListener('focus', handleFocus)
     }, [dispatch, orderSheetParams])
 
     const handleMemoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -242,10 +255,81 @@ export const OrderSheetSingleApi = () => {
                         <p>총 금액: {data.orderProduct.totalAmount}</p>
                     </div>
 
-                    <h3>결제 방법</h3>
-                    <div>
-                        <p>포인트 전체 사용: {data.orderPayMethod.usePointAll ? '예' : '아니오'}</p>
-                        <p>결제 방법들: {data.orderPayMethod.payMethodNames.join(', ')}</p>
+                    <h3 style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                        💳 결제 방법
+                        <button
+                            onClick={() => navigate('/paymentMethod/subscription')}
+                            style={{
+                                padding: '8px 16px',
+                                backgroundColor: '#007bff',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                                fontSize: '14px',
+                                fontWeight: 'normal',
+                            }}
+                        >
+                            변경
+                        </button>
+                    </h3>
+                    <div
+                        style={{
+                            padding: '15px',
+                            backgroundColor: '#f8f9fa',
+                            borderRadius: '8px',
+                            border: '2px solid #007bff',
+                            marginBottom: '15px',
+                        }}
+                    >
+                        <div style={{marginBottom: '10px'}}>
+                            <strong style={{color: '#007bff'}}>🥇 1순위:</strong>
+                            <span
+                                style={{
+                                    marginLeft: '10px',
+                                    padding: '4px 8px',
+                                    backgroundColor: '#007bff',
+                                    color: 'white',
+                                    borderRadius: '4px',
+                                    fontSize: '14px',
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                {data.orderPayMethod.payMethodNames[0] || '미설정'}
+                            </span>
+                        </div>
+                        <div style={{marginBottom: '10px'}}>
+                            <strong style={{color: '#28a745'}}>🥈 2순위:</strong>
+                            <span
+                                style={{
+                                    marginLeft: '10px',
+                                    padding: '4px 8px',
+                                    backgroundColor: '#28a745',
+                                    color: 'white',
+                                    borderRadius: '4px',
+                                    fontSize: '14px',
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                {data.orderPayMethod.payMethodNames[1] || '선택안함'}
+                            </span>
+                        </div>
+                        <div>
+                            <strong style={{color: '#6f42c1'}}>💰 포인트 전체 사용:</strong>
+                            <span
+                                style={{
+                                    marginLeft: '10px',
+                                    padding: '4px 8px',
+                                    backgroundColor: data.orderPayMethod.usePointAll ? '#28a745' : '#6c757d',
+                                    color: 'white',
+                                    borderRadius: '4px',
+                                    fontSize: '14px',
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                {data.orderPayMethod.usePointAll ? '✅ 사용' : '❌ 미사용'}
+                            </span>
+                        </div>
                     </div>
 
                     <h3>포인트 리워드</h3>

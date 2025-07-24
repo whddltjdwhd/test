@@ -1,5 +1,6 @@
 import {http, HttpResponse} from 'msw'
 
+import paymentData from './data/paymentData.json'
 import {mockDB} from './db'
 import {API_ENDPOINTS, createApiUrl} from '../constants/api'
 import {DEFAULT_ORDER_SHEET_PARAMS} from '../types/api/params'
@@ -33,6 +34,31 @@ export const handlers = [
             orderPayMethod: mockDB.getOrderPayMethod(),
             pointsReward: mockDB.getPointsReward(),
             deliveryMemoOptions: mockDB.getDeliveryMemoOptions(),
+        })
+    }),
+
+    // 결제수단 조회 API
+    http.get(createApiUrl(API_ENDPOINTS.PAYMENT_METHOD.SUBSCRIPTION), () => {
+        return HttpResponse.json(paymentData)
+    }),
+
+    // 결제수단 변경 API
+    http.post(createApiUrl(API_ENDPOINTS.PAYMENT_METHOD.SUBSCRIPTION), async ({request}) => {
+        const paymentInfo = (await request.json()) as {
+            primaryPaymentType: string
+            secondaryPaymentType: string
+            selectedPrimaryCard?: string | null
+            selectedSecondaryCard?: string | null
+            usePointAll: boolean
+        }
+
+        // DB 업데이트
+        mockDB.updatePaymentMethod(paymentInfo)
+
+        return HttpResponse.json({
+            code: '00',
+            message: '성공',
+            result: '결제수단이 변경되었습니다.',
         })
     }),
 

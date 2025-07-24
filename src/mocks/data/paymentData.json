@@ -1,0 +1,235 @@
+{
+    "code": "00",
+    "message": "성공",
+    "result": {
+        "result": "SUCCESS",
+        "response": {
+            "prevPaymentMethodInfo": {
+                "regPgs": [
+                    {
+                        "pgcd": "80",
+                        "corpcd": "004",
+                        "corpKey": "163585909",
+                        "order": 1
+                    },
+                    {
+                        "pgcd": "61",
+                        "corpcd": "CCKM",
+                        "corpKey": "20191203170311269341",
+                        "order": 2
+                    }
+                ],
+                "cashReceipt": {
+                    "issueNumber": "010-8317-2824",
+                    "usageType": "PERSONAL_INCOME_TAX",
+                    "issueType": "PR_CELL_PHONE_NUMBER",
+                    "businessRegistrationNumberFirst": null,
+                    "businessRegistrationNumberSecond": null,
+                    "businessRegistrationNumberThird": null,
+                    "mobilePhoneNumberFirst": "010",
+                    "mobilePhoneNumberSecond": "8317",
+                    "mobilePhoneNumberThird": "2824",
+                    "cashReceiptCardNumberFirst": null,
+                    "cashReceiptCardNumberSecond": null,
+                    "cashReceiptCardNumberThird": null,
+                    "cashReceiptCardNumberFourth": null
+                },
+                "recentPayInfo": {
+                    "preferredPoint": ["POINT", "PAYMONEY"]
+                },
+                "isRegistered": true,
+                "usePointAll": true
+            },
+            "memberInfoResult": {
+                "version": "1.0",
+                "account": null,
+                "adult": true,
+                "isAMLTarget": false,
+                "resultType": "SUCCESS",
+                "currMemberType": "000"
+            },
+            "accountResult": {
+                "resultCode": "1000",
+                "resultMessage": "성공",
+                "isAgreedOpenBank": true,
+                "acctList": [
+                    {
+                        "acctKey": 163585909,
+                        "bnkCd": "004",
+                        "bnkNm": "KB국민",
+                        "bnkType": "bank",
+                        "maskAcctNo": "938*******2587",
+                        "acctNo": "",
+                        "regCmplTime": "20230701021415",
+                        "isChkCard": false,
+                        "nickNm": null,
+                        "rank": 1,
+                        "payBnkbCd": null,
+                        "payBnkbNm": null,
+                        "isPayable": true,
+                        "isOpenBankAccount": true,
+                        "isPlAccount": false,
+                        "isRefundAccount": false,
+                        "isCmplAml": true,
+                        "inspection": null,
+                        "isPendingPayable": false
+                    }
+                ],
+                "inspection": null
+            },
+            "cardResult": {
+                "result": {
+                    "summary": "토스뱅크 외 2개",
+                    "count": 3,
+                    "cvmBase64": null,
+                    "cardList": [
+                        {
+                            "cid": "20240207233616565573",
+                            "naverId": "sungjong5k",
+                            "naverIdNo": "chn5R",
+                            "naverPayMemberNo": 230466564,
+                            "ndi": null,
+                            "registerDatetime": "2024-02-07 23:36:17",
+                            "recentUpdateDatetime": "2025-06-19 01:10:49",
+                            "recentUseDatetime": "2025-06-19 01:10:49",
+                            "offlineYn": "n",
+                            "cardCompanyId": "CCHN",
+                            "cardCompanyName": "하나카드",
+                            "maskedCardNumber": "****-****-****-5352",
+                            "hyundaiMpointUseYn": "n",
+                            "cardType": "chk",
+                            "cardBrand": "master",
+                            "cardName": "토스뱅크카드 나이트핑크",
+                            "cardImageUrl": "https://ssl.pstatic.net/static.pay/card/plate-images/230628133005/hana/e570145e2d51ba8880ec61d8b677a4cbf5b1830e.png",
+                            "cardOwnerType": "personal",
+                            "cardIssuerCode": "092",
+                            "cardIssuerName": "토스뱅크",
+                            "valid": true,
+                            "billingCardCode": "CF",
+                            "cardAlias": null,
+                            "cardProductCode": "A0032",
+                            "cardCategory": null,
+                            "cardProductName": "토스뱅크카드 나이트핑크",
+                            "binNo": "532750",
+                            "closedYn": null,
+                            "benefitInitiation": null,
+                            "benefitFinish": null,
+                            "rewardRate": null,
+                            "benefitResidualAmount": 0,
+                            "benefitCardYn": "n",
+                            "offlinePaymentStatusList": [],
+                            "apiPauseSchedule": null
+                        },
+                        {
+                            "cid": "20230101160651843244",
+                            "naverId": "sungjong5k",
+                            "naverIdNo": "chn5R",
+                            "naverPayMemberNo": 230466564,
+                            "ndi": null,
+                            "registerDatetime": "2023-01-01 16:06:51",
+                            "recentUpdateDatetime": "2025-01-18 21:55:23",
+                            "recentUseDatetime": "2025-01-18 21:55:23",
+                            "offlineYn": "n",
+                            "cardCompanyId": "CCKM",
+                            "cardCompanyName": "국민카드",
+                            "maskedCardNumber": "****-****-****-0163",
+                            "hyundaiMpointUseYn": "n",
+                            "cardType": "chk",
+                            "cardBrand": "local",
+                            "cardName": "KB국민 나라사랑체크카드(일반형 RF)",
+                            "cardImageUrl": "https://ssl.pstatic.net/static.pay/card/plate-images/210902061624/kb/9c3b56cf6999a80b577ff1641b9e27cd1e65784f.png",
+                            "cardOwnerType": "personal",
+                            "cardIssuerCode": "100",
+                            "cardIssuerName": null,
+                            "valid": true,
+                            "billingCardCode": "C3",
+                            "cardAlias": null,
+                            "cardProductCode": "04120",
+                            "cardCategory": null,
+                            "cardProductName": "KB국민 나라사랑체크카드(일반형 RF)",
+                            "binNo": "949094",
+                            "closedYn": null,
+                            "benefitInitiation": null,
+                            "benefitFinish": null,
+                            "rewardRate": null,
+                            "benefitResidualAmount": 0,
+                            "benefitCardYn": "n",
+                            "offlinePaymentStatusList": ["QR_BLOCKED"],
+                            "apiPauseSchedule": null
+                        },
+                        {
+                            "cid": "20191203170311269341",
+                            "naverId": "sungjong5k",
+                            "naverIdNo": "chn5R",
+                            "naverPayMemberNo": 230466564,
+                            "ndi": null,
+                            "registerDatetime": "2019-12-03 17:03:11",
+                            "recentUpdateDatetime": "2019-12-03 17:03:11",
+                            "recentUseDatetime": "2022-12-31 18:40:18",
+                            "offlineYn": "n",
+                            "cardCompanyId": "CCKM",
+                            "cardCompanyName": "국민카드",
+                            "maskedCardNumber": "****-****-****-7156",
+                            "hyundaiMpointUseYn": "n",
+                            "cardType": "chk",
+                            "cardBrand": "master",
+                            "cardName": "KB국민 nori 체크카드(비RF)",
+                            "cardImageUrl": "https://ssl.pstatic.net/static.pay/card/plate-images/210902061624/kb/31e4b2cce76c17cbf125a8db9af36baa29abdbd5.png",
+                            "cardOwnerType": "personal",
+                            "cardIssuerCode": "100",
+                            "cardIssuerName": null,
+                            "valid": true,
+                            "billingCardCode": "C3",
+                            "cardAlias": null,
+                            "cardProductCode": "01665",
+                            "cardCategory": null,
+                            "cardProductName": "KB국민 nori 체크카드(비RF)",
+                            "binNo": "527289",
+                            "closedYn": null,
+                            "benefitInitiation": null,
+                            "benefitFinish": null,
+                            "rewardRate": null,
+                            "benefitResidualAmount": 0,
+                            "benefitCardYn": "n",
+                            "offlinePaymentStatusList": [],
+                            "apiPauseSchedule": null
+                        }
+                    ]
+                },
+                "code": "1000",
+                "message": "성공"
+            },
+            "paymoneyAndPointResult": {
+                "paymoney": {
+                    "resultType": "SUCCESS",
+                    "resultCode": "1000",
+                    "resultMessage": "성공",
+                    "coinType": "06",
+                    "balanceAmount": 8769,
+                    "availableAmount": 8769,
+                    "overseasBalanceAmount": 8769,
+                    "overseasAvailableAmount": 8769,
+                    "cashableBalanceAmount": 8769,
+                    "includeNonCashEvidence": false,
+                    "renewYn": "N"
+                },
+                "reward": {
+                    "resultType": "SUCCESS",
+                    "resultCode": "1000",
+                    "resultMessage": "성공",
+                    "balanceAmount": 3,
+                    "welfareBalanceAmount": 0,
+                    "description": []
+                }
+            },
+            "chargePointLimitResult": {
+                "balanceLimitAmount": 1991231,
+                "pgcdLimitAmount": 9840000,
+                "pgidLimitAmount": 2000000,
+                "minorLimitAmount": 999840000,
+                "resultType": "SUCCESS"
+            },
+            "naverIdNo": "chn5R"
+        }
+    }
+}
