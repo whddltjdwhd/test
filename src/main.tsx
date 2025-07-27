@@ -1,5 +1,3 @@
-import {StrictMode} from 'react'
-
 import {createRoot} from 'react-dom/client'
 import {Provider} from 'react-redux'
 
@@ -14,9 +12,9 @@ if (ENV === 'development') {
 }
 
 createRoot(document.querySelector('#root')!).render(
-    <StrictMode>
+    <>
         <Provider store={store}>
             <App />
         </Provider>
-    </StrictMode>,
+    </>,
 )

@@ -1,42 +1,22 @@
-export interface SubscriptionInfo {
-    deviceType: string
+import type {DeviceType, OsType} from '../../shared/request'
+
+export interface SubscriptionRequest {
+    deviceType: DeviceType
     isMobileDisplay: boolean
-    osType: string
+    osType: OsType
     startRequestBody: StartRequestBody
     subscriptionSheetId: string
 }
 
 export interface StartRequestBody {
     agreements: Agreements
-    coupon: Coupon
+    coupon: unknown
     deliveryAddress: DeliveryAddress
     payment: Payment
 }
 
 export interface Agreements {
     agreeSubscriptionPay: boolean
-}
-
-export interface Coupon {
-    selectedProductCouponIdsByOrderSheetItemId: SelectedSByOrderSheetItemID
-    selectedImmediateDiscountPolicyNosByOrderSheetItemId: Selected
-    selectedProductDuplicateCouponIdsByOrderSheetItemId: Selected
-    selectedProductDuplicateCouponIdsByOrderSheetItemId2: Selected
-    selectedSubscriptionDiscountPolicesByOrderSheetItemId: SelectedSByOrderSheetItemID
-    selectedStoreCouponIdsByMerchantNo: Selected
-}
-
-export type Selected = object
-
-export interface SelectedSByOrderSheetItemID {
-    '2025072016356181': The2025072016356181[]
-}
-
-export interface The2025072016356181 {
-    benefitType: string
-    count: string
-    discountUnitType: string
-    discountValue: number
 }
 
 export interface DeliveryAddress {
