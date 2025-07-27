@@ -7,7 +7,7 @@ import type {OrderSheetResponse} from '../types/api/order/response'
 
 export async function fetchOrderSheetData() {
     try {
-        const response = await clientApi.get<OrderSheetResponse>('/order-sheet')
+        const response = await clientApi.get<OrderSheetResponse>('/order/info')
         return response.data
     } catch (error) {
         if (axios.isAxiosError<ErrorBase>(error) && error.response) {
