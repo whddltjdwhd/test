@@ -10,9 +10,9 @@ export interface OrderPayMethodInfo {
     cardType: string
     corporationCode: string
     corporationName: string
-    invalidReson: string | null
+    invalidReason: string | null
     key: string
-    payMmthodDisplayName: string
+    payMethodDisplayNumber: string
     payMethodImageUrl: string | null
     payMethodName: string
     payMethodType: string
@@ -25,58 +25,58 @@ export interface Card {
     naverId: string
     naverIdNo: string
     naverPayMemberNo: number
-    ndi: string | null
+    ndi: unknown
     registerDatetime: string
     recentUpdateDatetime: string
     recentUseDatetime: string
-    offlineYn: 'y' | 'n'
-    cardCompanyId: string
-    cardCompanyName: string
+    offlineYn: string
+    cardCompunknownId: string
+    cardCompunknownName: string
     maskedCardNumber: string
-    hyundaiMpointUseYn: 'y' | 'n'
-    cardType: 'chk' | 'crd'
+    hyundaiMpointUseYn: string
+    cardType: string
     cardBrand: string
     cardName: string
-    cardImageUrl: string | null
-    cardOwnerType: 'personal' | 'business'
+    cardImageUrl: string
+    cardOwnerType: string
     cardIssuerCode: string
     cardIssuerName: string
     valid: boolean
-    billingCardCode: string | null
-    cardAlias: string | null
-    cardProductCode: string | null
-    cardCategory: string | null
-    cardProductName: string | null
-    binNo: string | null
-    closedYn: string | null
-    benefitInitiation: string | null
-    benefitFinish: string | null
-    rewardRate: string | null
+    billingCardCode: string
+    cardAlias: unknown
+    cardProductCode: string
+    cardCategory: unknown
+    cardProductName: string
+    binNo: string
+    closedYn: unknown
+    benefitInitiation: unknown
+    benefitFinish: unknown
+    rewardRate: unknown
     benefitResidualAmount: number
-    benefitCardYn: 'y' | 'n'
+    benefitCardYn: string
     offlinePaymentStatusList: string[]
-    apiPauseSchedule: string | null
+    apiPauseSchedule: unknown
 }
 
 export interface Account {
     acctKey: number
     bnkCd: string
     bnkNm: string
-    bnkType: 'bank' | 'card'
+    bnkType: string
     maskAcctNo: string
     acctNo: string
     regCmplTime: string
     isChkCard: boolean
-    nickNm: string | null
+    nickNm: unknown
     rank: number
-    payBnkbCd: string | null
-    payBnkbNm: string | null
+    payBnkbCd: unknown
+    payBnkbNm: unknown
     isPayable: boolean
     isOpenBankAccount: boolean
     isPlAccount: boolean
     isRefundAccount: boolean
     isCmplAml: boolean
-    inspection: string | null
+    inspection: unknown
     isPendingPayable: boolean
 }
 

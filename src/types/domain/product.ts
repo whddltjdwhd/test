@@ -7,7 +7,7 @@ export interface OrderProduct {
     deliveryPolicy: DeliveryFeeClassType
     productName: string
     quantity: number
-    discountedAmount: number
+    subscriptionDiscountedAmount: number
     orderAmount: number
-    totalAmount: number
+    totalOrderAmount: number
 }

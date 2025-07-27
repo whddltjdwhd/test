@@ -1,0 +1,40 @@
+{
+    "code": "00",
+    "message": "성공",
+    "result": {
+        "purchaseRewardPointsByItemId": {
+            "2025072744568572": {
+                "admin": 116,
+                "seller": 10,
+                "sellerCustomerManagementByTitle": {},
+                "adminAdditional": 0,
+                "power": 0,
+                "chargePoint": 0,
+                "naverBankbook": 0,
+                "arrivalGuarantee": 0,
+                "arrivalGuaranteeMembership": 0,
+                "membership": null
+            }
+        },
+        "logeyeRewardPointListsByItemId": {
+            "2025072744568572": []
+        },
+        "reviewRewardPointsByItemId": {
+            "2025072744568572": {
+                "writeTextReview": 60,
+                "writePhotoVideoReview": 160,
+                "afterUseTextReview": 50,
+                "afterUsePhotoVideoReview": 150,
+                "subscriberReview": 0,
+                "maxRewardPoint": 310
+            }
+        },
+        "cardEasyPayRewardPoint": 0,
+        "expectedChargePoint": 0,
+        "expectedNaverBankbook": 0,
+        "expectedAdminAcmAmount": 116,
+        "adminAcmRate": 1,
+        "paymoneyUseAcmRate": 1.5,
+        "bankbookAcmRate": 0
+    }
+}

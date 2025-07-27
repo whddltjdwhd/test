@@ -4,7 +4,7 @@ export interface DeliveryAddress {
     telNo1: string
     telNo2: string
     address: string
-    memos: DeliveryMemo[]
+    deliveryMemo: DeliveryMemo[]
 }
 
 export interface DeliveryMemo {
