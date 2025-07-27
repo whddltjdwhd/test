@@ -2,7 +2,7 @@ export type ErrorType =
     | 'typeError'
     | 'syntaxError'
     | 'referenceError'
-    | 'rangeError'
+    | 'networkError'
     | 'uriError'
     | 'evalError'
     | 'unknownError'
@@ -25,9 +25,9 @@ export const customError: Record<ErrorType, ErrorBase> = {
         code: '02',
         message: 'Reference Error: 참조 오류가 발생했습니다.',
     },
-    rangeError: {
+    networkError: {
         code: '03',
-        message: 'Range Error: 범위 오류가 발생했습니다.',
+        message: 'Network Error: 네트워크 오류가 발생했습니다.',
     },
     uriError: {
         code: '04',
