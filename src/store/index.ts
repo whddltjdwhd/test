@@ -1,6 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit'
 import {useDispatch, useSelector} from 'react-redux'
 
+import startSubscriptionReducer from './slices/client/startSubscriptionSlice'
 import orderSheetReducer from './slices/server/orderSheetSlice'
 
 import type {TypedUseSelectorHook} from 'react-redux'
@@ -8,6 +9,7 @@ import type {TypedUseSelectorHook} from 'react-redux'
 export const store = configureStore({
     reducer: {
         orderSheet: orderSheetReducer,
+        startSubscription: startSubscriptionReducer,
     },
 })
 

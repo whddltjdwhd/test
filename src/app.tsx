@@ -35,13 +35,13 @@ function App() {
         return <div>No data available</div>
     }
 
-    const {subscriptionDate, deliveryAddress, orderProduct, orderPayMethod, pointsReward} = orderSheetData
+    const {subscriptionDate, orderProduct, orderPayMethod, pointsReward} = orderSheetData
 
     return (
         <div>
             <h1>구독 주문서</h1>
             {subscriptionDate && <SubscriptionDateComponent {...subscriptionDate} />}
-            {deliveryAddress && <DeliveryAddressComponent {...deliveryAddress} />}
+            <DeliveryAddressComponent />
             {orderProduct && <OrderProductComponent {...orderProduct} />}
             {orderPayMethod && <OrderPayMethodComponent {...orderPayMethod} />}
             {pointsReward && <PointsRewardComponent {...pointsReward} />}

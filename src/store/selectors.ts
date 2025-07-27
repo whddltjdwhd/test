@@ -30,3 +30,12 @@ export const selectOrderSheetData = createSelector(
 export const selectOrderSheetLoading = createSelector([selectOrderSheetState], (orderSheet) => orderSheet.loading)
 
 export const selectOrderSheetError = createSelector([selectOrderSheetState], (orderSheet) => orderSheet.error)
+
+// 슬라이스 전체 상태를 선택
+export const selectStartSubscriptionState = (state: RootState) => state.startSubscription
+
+// 각 상태 값을 개별적으로 선택
+export const selectDeliveryMemo = (state: RootState) => state.startSubscription.deliveryMemo
+export const selectUseAllCoupon = (state: RootState) => state.startSubscription.useAllCoupon
+export const selectUseVirtualPhoneNumber = (state: RootState) => state.startSubscription.useVirtualPhoneNumber
+export const selectReuseMemo = (state: RootState) => state.startSubscription.reuseMemo
