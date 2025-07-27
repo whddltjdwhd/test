@@ -1,6 +1,8 @@
 import {createRoot} from 'react-dom/client'
+import {Provider} from 'react-redux'
 
-import App from './App'
+import App from './app'
+import {store} from './store'
 
 const ENV = import.meta.env.VITE_ENV
 
@@ -10,7 +12,7 @@ if (ENV === 'development') {
 }
 
 createRoot(document.querySelector('#root')!).render(
-    <>
+    <Provider store={store}>
         <App />
-    </>,
+    </Provider>,
 )
