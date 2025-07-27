@@ -1,6 +1,6 @@
 import type {ErrorType} from '../../errorBase'
 
-export function errorTypeGuard(value: ErrorType): value is ErrorType {
+export function errorTypeGuard(value: ErrorType | unknown): value is ErrorType {
     return (
         value === 'typeError' ||
         value === 'syntaxError' ||
